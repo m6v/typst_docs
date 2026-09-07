@@ -210,7 +210,7 @@
 #let appendix(title, status: "обязательное") = {
   appendix-counter.step()
   
-  // 1. Разрыв страницы вызывается ЗДЕСЬ — на верхнем уровне функции, до контейнеров
+  // Разрыв страницы на верхнем уровне документа
   pagebreak(weak: true)
   
   context {
@@ -218,18 +218,16 @@
     let ru-letters = ("А", "Б", "В", "Г", "Д", "Е", "Ж", "И", "К", "Л", "М", "Н", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ш", "Щ", "Э", "Ю", "Я")
     let app-letter = ru-letters.at(num - 1)
     
-    // Сброс счетчиков рисунков и таблиц
+    // Сброс счетчиков рисунков и таблиц под контекст приложения
     counter(figure.where(kind: image)).update(0)
     counter(figure.where(kind: table)).update(0)
     
-    // 2. Теперь безопасный вызов align и block
+    // Оформляем центрированный заголовок приложения через чистый text/block
     align(center)[
       #block(width: 100%, below: 1.5em)[
         #set par(first-line-indent: 0pt)
         
-        #heading(level: 1, numbering: none)[
-          Приложение #app-letter
-        ]
+        #text(weight: "bold", size: 1.2em)[Приложение #app-letter]
         
         #v(0.4em)
         #text(weight: "regular", size: 0.9em)[(#status)]
