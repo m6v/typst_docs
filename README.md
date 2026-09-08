@@ -1,2 +1,33 @@
 # typst_docs
 Шаблоны документов, оформленные с помощью typst
+
+# Настройка geany
+
+Создать или добавить в существующий файл 
+```
+cat << EOF >> ~/.config/geany/filetype_extensions.cong
+[Extensions]
+Typst=*.typ;
+```
+
+Перезапустить Geany, выбрать любой или создать файл с расширением `.typ`, в меню `Документ` выбрать элемент `Установить тип файла` -> `файл Typst`
+
+Откройте Сборка ➔ Установить команды сборки.
+
+В самой верхней секции (она теперь будет называться Команды Typst) пропишите:
+
+Первая строка (Компиляция):
+Имя: Компилировать
+Команда: typst compile "%f"
+
+Вторая строка (Сборка):
+Имя: 
+Режим Watch
+Команда: typst watch "%f"
+
+В самой нижней секции 
+Команды выполнения (Execute commands):
+Имя: Просмотр PDF
+Команда: xdg-open "%e.pdf"
+
+mkdir -p ~/.config/geany/filedefs && echo -e "[settings]\nlexer_filetype=Markdown\nextension=typ\n\n[keywords]\n# Здесь можно будет добавить ключевые слова" > ~/.config/geany/filedefs/filetypes.Typst.conf

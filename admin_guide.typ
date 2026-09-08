@@ -1,6 +1,6 @@
-#import "template.typ": my-setup, abbreviations, note, appendix, change-log-page
+#import "template.typ": guide, abbreviations, note, appendix, change-log-page
 
-#show: my-setup
+#show: guide
 
 #let doc-id = "АААА.123456.789"
 #let astra = "ОС «Asta Linux SE»"

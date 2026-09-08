@@ -40,8 +40,8 @@
   )
 }
 
-#let my-setup(body) = {
-  // 1. БАЗОВЫЕ НАСТРОЙКИ ТЕКСТА И ПАРАГРАФОВ
+#let guide(body) = {
+  // Настройки текста и параграфов
   set text(
     font: "Liberation Serif", 
     size: 14pt, 
@@ -57,7 +57,7 @@
     first-line-indent: (amount: 1.25cm, all: true)
   )
 
-  // 2. ЗАГОЛОВКИ
+  // Настройки заголовков
   set heading(numbering: "1.1")
   show heading: set block(above: 24pt, below: 24pt)
   show heading: pad.with(left: 1.25cm)
@@ -67,17 +67,18 @@
   }
   show heading.where(level: 1): it => pagebreak(weak: true) + it
 
-  // 3. ССЫЛКИ И ОГЛАВЛЕНИЕ
+  // Настройки ссылок
   show ref: it => if it.element != none { 
     link(it.element.location(), numbering(it.element.numbering, ..counter(it.element.func()).at(it.element.location()))) 
   } else { it }
 
+  // Настройки оглавления
   show outline.entry: it => {
     show linebreak: [ ]
     it
   }
 
-  // 4. ТАБЛИЦЫ И ФИГУРЫ
+  // Настройки таблиц и рисунков
   show figure.where(kind: table): set figure.caption(
     separator: " — ", 
     position: top     
@@ -86,7 +87,7 @@
   show figure.caption.where(kind: table): set par(first-line-indent: (amount: 0cm, all: false))
   show figure.where(kind: table): set block(breakable: true, sticky: true)
 
-  // 5. ГЛОБАЛЬНЫЕ СПИСКИ (Маркированные и Нумерованные)
+  // Настройки маркированных и нумерованных списков
   set list(marker: none, indent: 0pt, body-indent: 0pt)
 
   show list.item: it => block(width: 100%)[
@@ -94,7 +95,7 @@
     #h(1.25cm)-#h(0.5em, weak: true)#it.body
   ]
 
-  // Исправленный вывод нумерованного списка через map().join()
+  // Вывод нумерованного списка через map().join()
   show enum: it => {
     let start-num = if it.start != auto { it.start } else { 1 }
     it.children.enumerate().map(((index, item)) => {
@@ -106,7 +107,7 @@
     }).join()
   }
 
-  // 6. НАСТРОЙКА ТАБЛИЦ И ЯЧЕЕК
+  // Настройки таблиц и ячеек
   show table: set text(size: 12pt)
   show table: set par(leading: 0.65em, justify: false, first-line-indent: (amount: 0cm, all: false))
   show table: set table(
@@ -129,7 +130,7 @@
     it
   }
 
-  // 7. НАСТРОЙКА СТРАНИЦЫ И БОКОВОЙ РАМКИ (ЕCПД)
+  // Настройки страницы и бокового штампа (ЕCПД)
   set page(
     paper: "a4",
     margin: (left: 3.5cm, right: 1.5cm, top: 2cm, bottom: 2cm),
@@ -184,9 +185,9 @@
     }
   )
 
-  // Современный акцентный блок кода (с левой цветной полосой) 
+  // Настройки блока кода (с левой цветной полосой для всех типов кроме исключений) 
   show raw.where(block: true): it => {
-    // Список языков/типов, для которых НЕ нужна синяя полоса
+    // Список языков/типов, для которых не нужна полоса
     let is-plain = it.lang in ("text", "console", "test", none)
 
     block(
