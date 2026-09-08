@@ -123,9 +123,37 @@
 }
 
 
+
+// Счетчик для приложений к документу
+#let appendix-counter = counter("appendices")
+
+// Функция приложения по ГОСТ 2.105-2019 / ГОСТ 2.503-2013
+#let appendix(title, status: "обязательное") = {
+  appendix-counter.step()
+  
+  context {
+    let num = appendix-counter.get().first()
+    let ru-letters = ("А", "Б", "В", "Г", "Д", "Е", "Ж", "И", "К", "Л", "М", "Н", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ш", "Щ", "Э", "Ю", "Я")
+    let app-letter = ru-letters.at(num - 1)
+    
+    pagebreak(weak: true)
+    
+    counter(figure.where(kind: image)).update(0)
+    counter(figure.where(kind: table)).update(0)
+    
+    align(center)[
+      #heading(level: 1, numbering: none)[
+        Приложение #app-letter \
+        #text[(#status) \
+        #title]
+      ]
+    ]
+  }
+}
+
+
+
 #let guide(doc-id: "", body) = {
-
-
   // Настройки текста и параграфов
   set text(
     font: "Liberation Serif", 
@@ -218,7 +246,7 @@
   // Настройки страницы и бокового штампа (ЕCПД)
   set page(
     paper: "a4",
-    margin: (left: 3.5cm, right: 1.5cm, top: 2cm, bottom: 2cm),
+    margin: (left: 2.5cm, right: 1.5cm, top: 2cm, bottom: 2cm),
     
     // МИКРО-ДОБАВЛЕНИЕ: Верхний колонтитул со 2-й страницы
     header: context {
@@ -297,43 +325,6 @@
   // Передаем основной документ
   body
 }
-
-// Счетчик для приложений к документу
-#let appendix-counter = counter("appendices")
-
-// Функция приложения по ГОСТ 2.105-2019
-#let appendix(title, status: "обязательное") = {
-  appendix-counter.step()
-  
-  // Разрыв страницы на верхнем уровне документа
-  pagebreak(weak: true)
-  
-  context {
-    let num = appendix-counter.get().first()
-    let ru-letters = ("А", "Б", "В", "Г", "Д", "Е", "Ж", "И", "К", "Л", "М", "Н", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ш", "Щ", "Э", "Ю", "Я")
-    let app-letter = ru-letters.at(num - 1)
-    
-    // Сброс счетчиков рисунков и таблиц под контекст приложения
-    counter(figure.where(kind: image)).update(0)
-    counter(figure.where(kind: table)).update(0)
-    
-    // Оформляем центрированный заголовок приложения через чистый text/block
-    align(center)[
-      #block(width: 100%, below: 1.5em)[
-        #set par(first-line-indent: 0pt)
-        
-        #text(weight: "bold", size: 1.2em)[Приложение #app-letter]
-        
-        #v(0.4em)
-        #text(weight: "regular", size: 0.9em)[(#status)]
-        
-        #v(0.6em)
-        #text(weight: "bold", size: 1.1em)[#title]
-      ]
-    ]
-  }
-}
-
 
 // Лист регистрации изменений по ГОСТ 2.503-2013 Приложение В
 #let change-log-page() = {
