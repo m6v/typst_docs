@@ -1,6 +1,7 @@
 #import "template.typ": doc-style, title-page, contents, appendix, change-log-page
 
-#let doc-id = "ТХШИ.466453.001"
+#let doc-id = "AAAA.123456.789"
+#let product_name = "УТЦ"
 
 //Применение стилей оформления
 #show: doc-style.with(doc-id: doc-id)
@@ -35,10 +36,10 @@
 #include "section_5.typ"
 
 //Приложения
-#counter(heading).update(0) 
-#appendix("Контрольный пример настроек средств защиты информации")
+//#counter(heading).update(0) 
+#appendix("Контрольный пример настроек средств защиты информации", name: "baseline_configuration")
 #include "appendix_a.typ"
-#appendix("Матрица доступа", status: "рекомендуемое", name: "matrix")
+#appendix("Матрица доступа", status: "рекомендуемое", name: "access_matrix")
 #include "appendix_b.typ"
 
 //Лист регистрации изменений
