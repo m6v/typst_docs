@@ -1,9 +1,12 @@
-#import "template.typ": guide, abbreviations, note, appendix, change-log-page
+#import "template.typ": guide, title-page, contents, abbreviations, note, appendix, change-log-page
 
 #let doc-id = "ТХШИ.466453.001"
 
-#show: guide.with(
-  doc-id: "ТХШИ.466453.001",
+#show: guide.with(doc-id: doc-id)
+
+// 2. Вручную вызываем титульный лист прямо в потоке документа
+#title-page(
+  doc-id: doc-id,
   classification: (
     "Для общего пользования",
     "Экз. 1",
@@ -17,26 +20,7 @@
   )
 )
 
-#align(center)[
-  #strong[Содержание]
-]
-#v(24pt)
-
-#outline(
-  title: none,
-  indent: 1.25cm,
-  depth: 2 
-)
-
-
-#pagebreak()
-
-#align(left)[
-  #strong[Обозначения и сокращения]
-]
-#v(12pt)
-
-В настоящем документе применяют следующие сокращения и обозначения: \
+#contents()
 
 #abbreviations(
   "BIOS - базовая система ввода-вывода (набор микропрограмм, реализующих низкоуровневые программные интерфейсы для работы с аппаратурой компьютера и подключёнными к нему устройствами, а также создающих необходимую программную среду для запуска операционной системы",
