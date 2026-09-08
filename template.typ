@@ -40,6 +40,54 @@
   )
 }
 
+
+#let make-title-page(doc-id, classification, title-lines) = {
+  // Настройки текста и абзацев для титульной страницы (размер 14pt)
+  set text(font: "Liberation Serif", size: 14pt, lang: "ru")
+  
+  // Блок классификации (вверху справа)
+  if classification.len() > 0 {
+    place(
+      top + right,
+      dx: 0cm,    
+      dy: -1.5cm,
+      block(width: auto)[
+        #set par(leading: 0.65em, first-line-indent: 0cm)
+        #classification.join([\ ])
+      ]
+    )
+  }
+
+  // Блок утверждения (слева)
+  align(left)[
+    #set par(first-line-indent: 0cm)
+    #v(1em) 
+    УТВЕРЖДЕН \
+    #if doc-id != "" [#doc-id;-ЛУ]
+  ]
+
+  // Блок по центру (название документа)
+  if title-lines.len() > 0 {
+    place(
+      top + left,
+      dx: 0cm,    
+      dy: 7cm,
+      block(width: 100%)[
+        #align(center)[
+          #set par(first-line-indent: 0cm)
+          #title-lines.join([\ ]) \
+          #doc-id \
+          Листов #context counter(page).final().at(0)
+        ]
+      ]
+    )
+    
+    // Автоматический перенос на следующую страницу
+    pagebreak()
+  }
+}
+
+
 #let guide(doc-id: "", classification: (), title-lines: (), body) = {
 
 
@@ -196,6 +244,8 @@
     }
   )
 
+  make-title-page(doc-id, classification, title-lines)
+
   // Настройки блока кода (с левой цветной полосой для всех типов кроме исключений) 
   show raw.where(block: true): it => {
     // Список языков/типов, для которых не нужна полоса
@@ -210,53 +260,6 @@
       text(font: "DejaVu Sans Mono", size: 0.85em, it)
     )
   }
-
-
-
-  // === БЛОКИ ТИТУЛЬНОГО ЛИСТА (ВСТАВИТЬ СЮДА) ===
-  
-  // 1. Блок классификации (вверху справа)
-  if classification.len() > 0 {
-    place(
-      top + right,
-      dx: 0cm,    
-      dy: -1.5cm,
-      block(width: auto)[
-        #set par(leading: 0.65em, first-line-indent: 0cm)
-        #classification.join([\ ])
-      ]
-    )
-  }
-
-  // 2. Блок утверждения (слева)
-  align(left)[
-    #set par(first-line-indent: 0cm)
-    #v(1em) 
-    УТВЕРЖДЕН \
-    #if doc-id != "" [#doc-id;-ЛУ]
-  ]
-
-  // 3. Блок по центру (название документа)
-  if title-lines.len() > 0 {
-    place(
-      top + left,
-      dx: 0cm,    
-      dy: 7cm,
-      block(width: 100%)[
-        #align(center)[
-          #set par(first-line-indent: 0cm)
-          #title-lines.join([\ ]) \
-          #doc-id \
-          Листов #context counter(page).final().at(0)
-        ]
-      ]
-    )
-    
-    // Автоматический перенос на следующую страницу (только если титульник не пустой)
-    pagebreak()
-  }
-
-
 
   // Передаем основной документ
   body
