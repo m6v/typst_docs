@@ -114,7 +114,7 @@
 #let appendix-counter = counter("appendices")
 
 // Функция приложения по ГОСТ 2.105-2019 / ГОСТ 2.503-2013
-#let appendix(title, status: "обязательное") = {
+#let appendix(title, status: "обязательное", name: none) = {
   appendix-counter.step()
   
   context {
@@ -134,9 +134,21 @@
         #title]
       ]
     ]
+    
+    if name != none {
+      [#metadata(app-letter) #label(name)]
+    }
   }
 }
 
+#let aref(name) = context {
+  let matches = query(label(name))
+  if matches.len() > 0 {
+    matches.first().value
+  } else {
+    [*Error! Reference source not found for "#name"*]
+  }
+}
 
 #let doc-style(doc-id: "", body) = {
   // Настройки текста и параграфов

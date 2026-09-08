@@ -38,7 +38,7 @@
 #counter(heading).update(0) 
 #appendix("Контрольный пример настроек средств защиты информации")
 #include "appendix_a.typ"
-#appendix("Исходный код модуля управления", status: "рекомендуемое")
+#appendix("Матрица доступа", status: "рекомендуемое", name: "matrix")
 #include "appendix_b.typ"
 
 //Лист регистрации изменений
