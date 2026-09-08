@@ -31,3 +31,7 @@ Typst=*.typ;
 Команда: xdg-open "%e.pdf"
 
 mkdir -p ~/.config/geany/filedefs && echo -e "[settings]\nlexer_filetype=Markdown\nextension=typ\n\n[keywords]\n# Здесь можно будет добавить ключевые слова" > ~/.config/geany/filedefs/filetypes.Typst.conf
+
+## Нумерованные списки
+
+Нумерованные списки можно создавать по аналогии с Markdown или символами "+". Новая нумерация начинается после абзаца в котором нет символа "+". Можно задать произвольный начальный номер с помощью `#set enum(start: 5)`.
