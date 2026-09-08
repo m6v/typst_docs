@@ -40,7 +40,7 @@
   )
 }
 
-#let guide(body) = {
+#let guide(doc-id: "", classification: (), title-lines: (), body) = {
   // Настройки текста и параграфов
   set text(
     font: "Liberation Serif", 
@@ -134,6 +134,15 @@
   set page(
     paper: "a4",
     margin: (left: 3.5cm, right: 1.5cm, top: 2cm, bottom: 2cm),
+    
+    // МИКРО-ДОБАВЛЕНИЕ: Верхний колонтитул со 2-й страницы
+    header: context {
+      let page-num = counter(page).get().first()
+      if page-num > 1 {
+        align(right)[#doc-id С. #page-num]
+      }
+    },
+    
     background: context {
       let page-num = counter(page).get().first()
       
