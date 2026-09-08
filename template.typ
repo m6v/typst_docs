@@ -152,8 +152,7 @@
 }
 
 
-
-#let guide(doc-id: "", body) = {
+#let doc-style(doc-id: "", body) = {
   // Настройки текста и параграфов
   set text(
     font: "Liberation Serif", 

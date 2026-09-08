@@ -1,10 +1,9 @@
-#import "template.typ": guide, title-page, contents, appendix, change-log-page
+#import "template.typ": doc-style, title-page, contents, appendix, change-log-page
 
 #let doc-id = "ТХШИ.466453.001"
 
-#show: guide.with(doc-id: doc-id)
+#show: doc-style.with(doc-id: doc-id)
 
-// 2. Вручную вызываем титульный лист прямо в потоке документа
 #title-page(
   doc-id: doc-id,
   classification: (
