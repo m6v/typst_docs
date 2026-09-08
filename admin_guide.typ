@@ -2,64 +2,20 @@
 
 #let doc-id = "ТХШИ.466453.001"
 
-// Шаг 1: Правильное и чистое добавление колонтитула со 2-й страницы
-#show: body => {
-  set page(
-    header: context {
-      let page-num = counter(page).get().first()
-      if page-num > 1 {
-        align(right)[#doc-id С. #page-num]
-      }
-    }
+#show: guide.with(
+  doc-id: "ТХШИ.466453.001",
+  classification: (
+    "Для общего пользования",
+    "Экз. 1",
+    "(п. 007 Перечня ВС)"
+  ),
+  title-lines: (
+    "Система защиты информации УТЦ",
+    "Руководство администратора",
+    "Часть 1",
+    "Руководство по комплексу средств защиты информации"
   )
-  body
-}
-
-#show: guide.with(doc-id: "ТХШИ.466453.001")
-
-
-// 1. Блок классификации (вверху справа)
-#place(
-  top + right,
-  dx: 0cm,    
-  dy: -1.5cm,
-  block(width: auto)[
-    #set par(leading: 0.65em, first-line-indent: 0cm)
-    Для общего пользования \
-    Экз. 1 \
-    (п. 007 Перечня ВС)
-  ]
 )
-
-// 2. Блок утверждения (слева)
-#align(left)[
-  #set par(first-line-indent: 0cm)
-  #v(1em) 
-  УТВЕРЖДЕН \
-  #doc-id;-ЛУ
-]
-
-// 3. Блок по центру (название документа, привязано к dy: 7cm от верха)
-#place(
-  top + left,
-  dx: 0cm,    
-  dy: 7cm,
-  block(width: 100%)[
-    #align(center)[
-      #set par(first-line-indent: 0cm)
-      Система защиты информации УТЦ \
-      Руководство администратора \
-      Часть 1 \
-      Руководство по комплексу средств защиты информации \
-      #doc-id \
-      Листов #context counter(page).final().at(0)
-    ]
-  ]
-)
-
-
-
-#pagebreak()
 
 #align(center)[
   #strong[Содержание]
