@@ -34,25 +34,25 @@
 
 #let note(..items) = {
   let pos-items = items.pos()
-  let note-indent = 1.25cm
-  let item-spacing = 0em // Компактный интервал между пунктами
+  if pos-items.len() == 0 { return }
   
-  block(
-    width: 100%,
-    inset: (y: 0.2em),
-    text(size: 12pt)[
-      #if pos-items.len() == 1 [
-        #h(note-indent)#text(tracking: 0.2em)[Примечание] — #pos-items.at(0)
-      ] else [
-        #h(note-indent)#text(tracking: 0.2em)[Примечания]
-        
-        #for (i, item) in pos-items.enumerate() {
-          v(item-spacing)
-          [#(i + 1) #item]
-        }
-      ]
+  let note-indent = 1.25cm
+  
+  block(width: 100%, inset: (y: 0.2em))[
+    // Отключение абзацного отступа, чтобы не суммировался с #h(1.25cm)
+    #set par(first-line-indent: (amount: 0cm, all: false))
+    #set text(size: 12pt)
+    
+    #if pos-items.len() == 1 [
+      #h(note-indent)#text(tracking: 0.2em)[Примечание] — #pos-items.at(0)
+    ] else [
+      #h(note-indent)#text(tracking: 0.2em)[Примечания]
+      
+      #pos-items.enumerate().map(((i, item)) => [
+        #h(note-indent)#(i + 1) #item
+      ]).join([\ ])
     ]
-  )
+  ]
 }
 
 #let title-page(doc-id: "", classification: (), title-lines: ()) = {
