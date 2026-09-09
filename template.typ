@@ -245,25 +245,10 @@
   show table: set text(size: 12pt)
   show table: set par(leading: 0.65em, justify: false, first-line-indent: (amount: 0cm, all: false))
   show table: set table(
-    align: (col, row) => if row == 0 { center + horizon } else { left + horizon }
+    align: (col, row) => if row == 0 { center + horizon } else { left + horizon },
+    stroke: 0.5pt + black
   )
-
-  // Сброс оформления списков внутри ячеек таблиц
-  show table.cell: it => {
-    set par(first-line-indent: (amount: 0cm, all: false))
-    show list.item: item-it => [
-      #set text(size: 12pt)
-      #set par(first-line-indent: (amount: 0cm, all: false))
-      \- #item-it.body 
-    ]
-    show enum.item: enum-it => [
-      #set text(size: 12pt)
-      #set par(first-line-indent: (amount: 0cm, all: false))
-      #enum-it.body
-    ]
-    it
-  }
-
+  
   // Настройки страницы и бокового штампа (ЕCПД)
   set page(
     paper: "a4",

@@ -7,3 +7,5 @@
 
 #include "sobol_usage.typ"
 #include "astra_usage.typ"
+#include "kpsgp_usage.typ"
+#include "jacarta_usage.typ"
