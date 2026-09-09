@@ -1,6 +1,6 @@
 #import "template.typ": note
 
-= Описание средств защиты информации и реализуемых (контролируемых) ими функций
+= Описание средств защиты информации и реализуемых (контролируемых) ими функций <safeguards_features>
 
 #include "sobol_description.typ"
 #include "astra_description.typ"

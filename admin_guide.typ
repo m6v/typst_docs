@@ -34,6 +34,10 @@
 #include "section_3.typ"
 #include "section_4.typ"
 #include "section_5.typ"
+#include "section_6.typ"
+#include "section_7.typ"
+#include "section_8.typ"
+#include "section_9.typ"
 
 //Приложения
 //#counter(heading).update(0) 
