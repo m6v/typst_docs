@@ -1,3 +1,6 @@
+// Глобальный счетчик для сквозных списков
+#let global-enum-counter = counter("global-enum-sequence")
+
 // Функция для оформления списка сокращений (по ГОСТ 7.32—2017, на который ссылается ГОСТ Р 2.105—2019 п.6.1.2)
 #let abbreviations(..items) = {
   // Автоматический перенос на новую страницу перед разделом
@@ -158,6 +161,12 @@
   image(path)
 )
 
+// Функция для изменения номера следующего списка (по умолчанию сброс на 1)
+#let reset-enum(to: 1) = {
+  // Устанавливаем значение на единицу меньше, так как первый плюс (+) сделает шаг вперед
+  global-enum-counter.update(to - 1)
+}
+
 #let doc-style(doc-id: "", body) = {
   // Настройки текста и параграфов
   set text(
@@ -229,9 +238,10 @@
     #h(1.25cm)-#h(0.5em, weak: true)#it.body
   ]
 
-  // Вывод нумерованного списка через map().join()
+  // Автоматический вывод нумерованного списка с поддержкой сквозного счетчика
   show enum: it => {
-    let start-num = if it.start != auto { it.start } else { 1 }
+    let start-num = global-enum-counter.get().first() + 1
+    
     it.children.enumerate().map(((index, item)) => {
       let current-num = start-num + index
       block(width: 100%)[
@@ -239,6 +249,9 @@
         #h(1.25cm)#str(current-num)\)#h(0.5em, weak: true)#item.body
       ]
     }).join()
+    
+    // После отрисовки этого блока списка обновляем счетчик в документе
+    global-enum-counter.update(i => i + it.children.len())
   }
 
   // Настройки таблиц и ячеек
