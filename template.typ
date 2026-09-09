@@ -187,10 +187,17 @@
   // Настройки заголовков
   set heading(numbering: "1.1")
   show heading: set block(above: 24pt, below: 24pt)
-  show heading: pad.with(left: 1.25cm)
   show heading: it => {
     set text(size: 14pt, weight: if it.level == 1 { "bold" } else { "regular" })
-    it
+    
+    // Получение номера заголовка, если он включен
+    let num = if it.numbering != none {
+      counter(heading).display(it.numbering) + h(0.5em)
+    }
+    // Рендеринг заголовка с горизонтальным отступом h(1.25cm)
+    block(width: 100%)[
+      #h(1.25cm)#num#it.body
+    ]
   }
   //Автоматически начинать заголовки первого уровня с новой страницы
   show heading.where(level: 1): it => pagebreak(weak: true) + it
