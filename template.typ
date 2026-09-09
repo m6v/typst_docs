@@ -237,14 +237,72 @@
   show figure.caption.where(kind: table): set par(first-line-indent: (amount: 0cm, all: false))
   show figure.where(kind: table): set block(breakable: true, sticky: true)
   
-  // Настройки маркированных и нумерованных списков
+  
+  
+  
+  
+  
+  
+// 1. Флаг контекста таблицы
+  let in-table-state = state("in-table", false)
+
+  // 2. Сброс флага строго после ячейки
+  show table.cell: it => in-table-state.update(true) + it + in-table-state.update(false)
+
+  // Базовые настройки списков
   set list(marker: none, indent: 0pt, body-indent: 0pt)
 
-  show list.item: it => block(width: 100%)[
-    #set par(first-line-indent: (amount: 0cm, all: true))
-    #h(1.25cm)-#h(0.5em, weak: true)#it.body
-  ]
+  // 3. Маркированный список
+  show list.item: it => context {
+    let in-table = in-table-state.get()
 
+    if in-table {
+      set par(first-line-indent: 0pt)
+      [–#h(0.4em)#it.body]
+    } else {
+      block(width: 100%)[
+        #set par(first-line-indent: (amount: 0cm, all: true))
+        #h(1.25cm)–#h(0.5em, weak: true)#it.body
+      ]
+    }
+  }
+
+// 4. Нумерованный список
+  show enum.item: it => context {
+    let in-table = in-table-state.get()
+
+    // 1. Делаем шаг глобального счетчика
+    global-enum-counter.step()
+
+    // 2. Считываем значение счетчика на этой позиции и прибавляем 1 за текущий шаг
+    let current-val = global-enum-counter.at(here()).first() + 1
+
+    // 3. Формируем номер
+    let num = if it.has("number") and it.number != auto and it.number != none {
+      str(it.number)
+    } else {
+      str(current-val)
+    }
+
+    if in-table {
+      // В ТАБЛИЦЕ: заподлицо, со скобкой
+      set par(first-line-indent: 0pt)
+      [#num\)#h(0.4em)#it.body]
+    } else {
+      // В ТЕКСТЕ: отступ 1.25cm, со скобкой
+      block(width: 100%)[
+        #set par(first-line-indent: (amount: 0cm, all: true))
+        #h(1.25cm)#num\)#h(0.5em, weak: true)#it.body
+      ]
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
   // Автоматический вывод нумерованного списка с поддержкой сквозного счетчика
   show enum: it => {
     let start-num = global-enum-counter.get().first() + 1
@@ -261,14 +319,30 @@
     global-enum-counter.update(i => i + it.children.len())
   }
 
+
+
+
+
+
+
+
+
   // Настройки таблиц и ячеек
-  show table: set text(size: 12pt)
-  show table: set par(leading: 0.65em, justify: false, first-line-indent: (amount: 0cm, all: false))
-  show table: set table(
-    align: (col, row) => if row == 0 { center + horizon } else { left + horizon },
-    stroke: 0.5pt + black
-  )
-  
+show table: set par(first-line-indent: 0pt, hanging-indent: 0pt)
+  show table: set list(indent: 0pt, body-indent: 0.35em)
+  show table: set enum(indent: 0pt, body-indent: 0.35em)
+
+  // 2. Изолируем контейнеры маркеров от правила первого абзаца
+  show table.cell: it => {
+    set list(marker: ([–], [•]).map(m => box(m)))
+    set enum(numbering: (..args) => box(numbering("1.", ..args)))
+    it
+  }
+
+
+
+
+
   // Настройки страницы и бокового штампа (ЕCПД)
   set page(
     paper: "a4",
