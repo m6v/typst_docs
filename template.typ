@@ -186,15 +186,25 @@
   //Автоматически начинать заголовки первого уровня с новой страницы
   show heading.where(level: 1): it => pagebreak(weak: true) + it
 
-  // Настройки ссылок
-  show ref: it => if it.element != none { 
-    link(it.element.location(), numbering(it.element.numbering, ..counter(it.element.func()).at(it.element.location()))) 
-  } else { it }
-
-  // Настройки оглавления
-  show outline.entry: it => {
-    show linebreak: [ ]
-    it
+  // Настройки ссылок с разделением счётчиков таблиц и рисунков
+  show ref: it => {
+    let el = it.element
+    if el != none {
+      // Проверяем, есть ли у элемента поле "kind" (это рисунок или таблица)
+      if el.has("kind") {
+        // Извлекаем точный счётчик именно для этого типа (image или table)
+        let loc = el.location()
+        let num = numbering(el.numbering, ..counter(figure.where(kind: el.kind)).at(loc))
+        
+        // Создаем кликабельную ссылку с правильным номером
+        link(loc, num)
+      } else {
+        // Если это ссылка на раздел (heading) или формулу
+        link(el.location(), numbering(el.numbering, ..counter(el.func()).at(el.location())))
+      }
+    } else {
+      it
+    }
   }
 
   // Настройки таблиц и рисунков
@@ -205,6 +215,10 @@
   show figure.caption.where(kind: table): set align(left)
   show figure.caption.where(kind: table): set par(first-line-indent: (amount: 0cm, all: false))
   show figure.where(kind: table): set block(breakable: true, sticky: true)
+
+  show figure.where(kind: image): set figure(supplement: [Рисунок])
+  set figure.caption(separator: [ — ])
+  
 
   // Настройки маркированных и нумерованных списков
   set list(marker: none, indent: 0pt, body-indent: 0pt)
