@@ -207,19 +207,20 @@
     }
   }
 
-  // Настройки таблиц и рисунков
-  show figure.where(kind: table): set figure.caption(
-    separator: " — ", 
-    position: top     
-  )
+  // Общие настройки для подписей таблиц и рисунков
+  set figure.caption(separator: [ — ])
+  
+  // Настройка подписей рисунков
+  show figure.where(kind: image): set figure(supplement: [Рисунок])
+  show figure.caption.where(kind: image): set align(center)
+  
+  // Настройка подписей таблиц
+  show figure.where(kind: table): set figure(supplement: [Таблица])
+  show figure.where(kind: table): set figure.caption(position: top)
   show figure.caption.where(kind: table): set align(left)
   show figure.caption.where(kind: table): set par(first-line-indent: (amount: 0cm, all: false))
   show figure.where(kind: table): set block(breakable: true, sticky: true)
-
-  show figure.where(kind: image): set figure(supplement: [Рисунок])
-  set figure.caption(separator: [ — ])
   
-
   // Настройки маркированных и нумерованных списков
   set list(marker: none, indent: 0pt, body-indent: 0pt)
 
