@@ -10,7 +10,7 @@
   let appendix-number = appendix-counter.get().first()
   let figure-number = args.pos().first()
 
-  // Если приложение вставить букву и номер, например, А.1, иначе только номер
+  // Если приложение - вставить букву и номер, например, А.1, иначе - только номер
   if appendix-number > 0 {
     let appendix-letter = appendix-letters.at(appendix-number - 1)
     [#appendix-letter.#str(figure-number)]
@@ -475,14 +475,3 @@
     ]
   )
 }
-
-#let template = (
-  appendix:appendix,
-  aref:aref,
-  change-log-page: change-log-page,
-  contents: contents,
-  doc-style: doc-style,
-  formatted-table: formatted-table,
-  reset-enum: reset-enum,
-  title-page: title-page,
-)
