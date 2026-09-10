@@ -1,3 +1,4 @@
+#import "template.typ": reset-enum
 
 #let rows = csv("matrix.csv", delimiter: ";")
 
@@ -25,4 +26,5 @@
     ..rows.flatten()
   )
 
-) <test>
+) <test1>
+

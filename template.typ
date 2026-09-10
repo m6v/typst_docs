@@ -1,10 +1,25 @@
 // Глобальный счетчик для сквозных списков
-#let global-enum-counter = counter("global-enum-sequence")
-
+#let enum-counter = counter("enum-counter")
 // Счетчик приложений к документу
-#let appendix-counter = counter("appendices")
+#let appendix-counter = counter("appendix-counter")
 
-// Оформление списка сокращений по ГОСТ 7.32—2017, на который ссылается ГОСТ Р 2.105—2019 п.6.1.2
+#let appendix-letters = ("А", "Б", "В", "Г", "Д", "Е", "Ж", "И", "К", "Л", "М", "Н", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ш", "Щ", "Э", "Ю", "Я")
+
+// Динамическая нумерация таблиц и рисунков в зависимости от расположения (основная часть или в приложение)
+#let figure-numbering(..args) = context {
+  let appendix-number = appendix-counter.get().first()
+  let figure-number = args.pos().first()
+
+  // Если приложение вставить букву и номер, например, А.1, иначе только номер
+  if appendix-number > 0 {
+    let appendix-letter = appendix-letters.at(appendix-number - 1)
+    [#appendix-letter.#str(figure-number)]
+  } else {
+    str(figure-number)
+  }
+}
+
+// Оформление перечня обозначений и сокращений по ГОСТ 7.32—2017, на который ссылается п.6.1.2 ГОСТ Р 2.105—2019 
 #let abbreviations(..items) = {
   // Автоматический перенос на новую страницу перед разделом
   pagebreak(weak: true)
@@ -61,7 +76,7 @@
   ]
 }
 
-//Вывод титульной страницы
+// Вывод титульной страницы
 #let title-page(doc-id: "", classification: (), title-lines: ()) = {
   // Фиксация шрифтов и размеров для титульного листа
   set text(font: "Liberation Serif", size: 14pt, lang: "ru")
@@ -126,42 +141,41 @@
 }
 
 
-// Функция формирования приложения по ГОСТ 2.105-2019 / ГОСТ 2.503-2013
+// Оформление приложения по ГОСТ 2.105-2019 / ГОСТ 2.503-2013
 #let appendix(title, status: "обязательное", name: none) = {
   appendix-counter.step()
-  
+
+  // Сброс нумерации таблиц и рисунков внутри текущего приложения
+  counter(figure.where(kind: image)).update(0)
+  counter(figure.where(kind: table)).update(0)
+
+  pagebreak(weak: true)
+
   context {
     let num = appendix-counter.get().first()
-    let ru-letters = ("А", "Б", "В", "Г", "Д", "Е", "Ж", "И", "К", "Л", "М", "Н", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ш", "Щ", "Э", "Ю", "Я")
-    let app-letter = ru-letters.at(num - 1)
-    
-    pagebreak(weak: true)
-    
-    counter(figure.where(kind: image)).update(0)
-    counter(figure.where(kind: table)).update(0)
+    let appendix-letter = appendix-letters.at(num - 1)
 
     align(center)[
-      // Локальное переопределение правила show heading с выводом текста заголовка по центру
       #show heading: it => {
-        set text(size: 14pt, weight: "bold") // установка шрифта
-        block(width: 100%)[#it.body]         // вывод тела без h(1.25cm)
+        set text(size: 14pt, weight: "bold")
+        block(width: 100%)[#it.body]
       }
       
       #heading(level: 1, numbering: none)[
-        Приложение #app-letter \
-        #text[(#status) \
-        #title]
+        Приложение #appendix-letter \
+        #text[(#status)] \
+        #title
       ]
     ]
 
     if name != none {
-      [#metadata(app-letter) #label(name)]
+      [#metadata(appendix-letter) #label(name)]
     }
   }
 }
 
 
-//Вставка ссылок на приложения
+// Вставка ссылок на приложения
 #let aref(name) = context {
   let matches = query(label(name))
   if matches.len() > 0 {
@@ -184,7 +198,7 @@
 // Изменение нумерации списка (по умолчанию сброс на 1)
 #let reset-enum(to: 1) = {
   // Установка значения на единицу меньше, так как первый плюс (+) сделает шаг вперед
-  global-enum-counter.update(to - 1)
+  enum-counter.update(to - 1)
 }
 
 
@@ -248,10 +262,12 @@
     }
   }
 
-
   // Общие настройки для подписей таблиц и рисунков
   set figure.caption(separator: [ — ])
-  
+
+  // Подключение кастомного нумератора таблиц и рисунков
+  set figure(numbering: figure-numbering)
+
   // Настройка подписей рисунков
   show figure.where(kind: image): set figure(supplement: [Рисунок])
   show figure.caption.where(kind: image): set align(center)
@@ -263,7 +279,6 @@
   show figure.caption.where(kind: table): set par(first-line-indent: (amount: 0cm, all: false))
   show figure.where(kind: table): set block(breakable: true, sticky: true)
 
-
   // Настройки маркированных и нумерованных списков
   set list(marker: none, indent: 0pt, body-indent: 0pt)
 
@@ -274,7 +289,7 @@
  
    // Вывод нумерованного списка с поддержкой сквозного счетчика
   show enum: it => {
-    let start-num = global-enum-counter.get().first() + 1
+    let start-num = enum-counter.get().first() + 1
     
     it.children.enumerate().map(((index, item)) => {
       let current-num = start-num + index
@@ -284,10 +299,9 @@
       ]
     }).join()
     
-    // После отрисовки этого блока списка обновление счетчика в документе
-    global-enum-counter.update(i => i + it.children.len())
+    // Обновление глобального счетчика нумерованных списков
+    enum-counter.update(i => i + it.children.len())
   }
-
 
   // Настройки таблиц и ячеек
   show table: set text(size: 12pt)
@@ -308,19 +322,18 @@
     
     // Нумерованный список с поддержкой сквозного счетчика
     show enum: enum-it => {
-      let start-num = global-enum-counter.get().first() + 1
+      let start-num = enum-counter.get().first() + 1
       enum-it.children.enumerate().map(((index, item)) => {
         let current-num = start-num + index
         block(width: 100%)[
           #str(current-num)\)#h(0.5em, weak: true)#item.body
         ]
       }).join()
-      global-enum-counter.update(i => i + enum-it.children.len())
+      enum-counter.update(i => i + enum-it.children.len())
     }
 
     it
   }
-
 
   // Настройки страницы и бокового штампа (ЕCПД)
   set page(
@@ -334,7 +347,7 @@
         align(right)[#doc-id С. #page-num]
       }
     },
-    
+
     background: context {
       let page-num = counter(page).get().first()
       
@@ -385,7 +398,6 @@
       }
     }
   )
-
 
   // Настройки блока кода (с левой цветной полосой для всех типов кроме исключений) 
   show raw.where(block: true): it => {
