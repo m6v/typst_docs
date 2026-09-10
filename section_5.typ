@@ -5,7 +5,8 @@
 Управление программными и программно-техническими средствами защиты информации изделия может осуществляться с использованием команд интерпретатора командной строки операционной системы и/или с использованием графического интерфейса пользователя.
 Способ управления (применения) зависит от конкретного средства защиты информации и описывается в настоящем разделе.
 
-#include "sobol_usage.typ"
-#include "astra_usage.typ"
-#include "kpsgp_usage.typ"
-#include "jacarta_usage.typ"
+#include "sobol_applying.typ"
+#include "astra_applying.typ"
+#include "kpsgp_applying.typ"
+#include "jacarta_applying.typ"
+

@@ -1,34 +1,28 @@
-Текст второго приложения
+
+#let rows = csv("matrix.csv", delimiter: ";")
+
+#let headers = ("ФИО", "Должность", "Оклад")
 
 #figure(
   caption: [Тестовая таблица для проверки списков и шрифтов],
+
   table(
-    columns: (1.5fr, 1fr, 2fr, 1fr, 1fr, 1fr, 1fr),
-    stroke: 0.5pt + black,
-    align: (center + top, center + top, center + top, center + top, center + top, center + top, center + top),  
+    // Настройка колонок: автоматическая ширина по контенту
+    columns: (1fr,) * headers.len(),
     
-    table.header(repeat: true,
-      table.cell(rowspan: 2, align: center + horizon)[Субъект доступа (пользователь)],
-      table.cell(rowspan: 2, align: center + horizon)[Первичная группа],
-      table.cell(rowspan: 2, align: center + horizon)[Доп. группы],
-      table.cell(colspan: 3, align: center + horizon)[Возможные значения мандатного контекста безопасности],
-      table.cell(rowspan: 2, align: center + horizon)[Linux- и PARSEC-привилегии (usercaps)],
-      
-      table.cell( align: center + horizon)[Уровень конфиден-циаль-ности (мин.:макс.)],
-      table.cell( align: center + horizon)[Уровень целост-ности (мин.: макс.)],
-      table.cell(align: center + horizon)[Категория],
+    // Делаем красивую заливку для шапки (заголовка)
+    fill: (col, row) => if row == 0 { rgb("e0e0e0") } else { none },
+    
+    // Выравнивание: шапка по центру, данные по левому краю
+    align: (col, row) => if row == 0 { center + horizon } else { left + horizon },
+    
+    // Фиксируем шапку при переносе таблицы на новую страницу
+    table.header(
+      ..headers.map(header => [*#header*]) // Делаем текст жирным
     ),
-
-    [Администратор безопасности информации], [astra-admin],
-    [video, scanner, plugdev, netdev, lpadmin, floppy, dip, cdrom, audio, astra-console, adm],
-    [0:0], [Низкий:\ Высокий], [ - ], [0x0:0x0],
-
-    [Инструктор], [instructors],
-    [video, users, plugdev, floppy, dialout, cdrom, audio],
-    [0:0], [Низкий:\ Высокий], [ - ], [0x0:0x0],
-
-    [Обучаемый], [learners],
-    [video, users, plugdev, floppy, dialout, cdrom, audio],
-    [0:0], [Низкий:\ Высокий], [ - ], [0x0:0x0],
+  
+    // Вставляем строки из CSV-файла
+    ..rows.flatten()
   )
+
 ) <test>
