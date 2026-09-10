@@ -1,6 +1,9 @@
 // Глобальный счетчик для сквозных списков
 #let global-enum-counter = counter("global-enum-sequence")
 
+// Счетчик приложений к документу
+#let appendix-counter = counter("appendices")
+
 // Оформление списка сокращений по ГОСТ 7.32—2017, на который ссылается ГОСТ Р 2.105—2019 п.6.1.2
 #let abbreviations(..items) = {
   // Автоматический перенос на новую страницу перед разделом
@@ -32,7 +35,8 @@
   )
 }
 
-//Функция вывода примечаний
+
+// Вывод примечаний
 #let note(..items) = {
   let pos-items = items.pos()
   if pos-items.len() == 0 { return }
@@ -57,6 +61,7 @@
   ]
 }
 
+//Вывод титульной страницы
 #let title-page(doc-id: "", classification: (), title-lines: ()) = {
   // Фиксация шрифтов и размеров для титульного листа
   set text(font: "Liberation Serif", size: 14pt, lang: "ru")
@@ -120,8 +125,6 @@
   )
 }
 
-// Счетчик приложений к документу
-#let appendix-counter = counter("appendices")
 
 // Функция формирования приложения по ГОСТ 2.105-2019 / ГОСТ 2.503-2013
 #let appendix(title, status: "обязательное", name: none) = {
@@ -157,6 +160,8 @@
   }
 }
 
+
+//Вставка ссылок на приложения
 #let aref(name) = context {
   let matches = query(label(name))
   if matches.len() > 0 {
@@ -166,7 +171,8 @@
   }
 }
 
-// Функция для вставки иконок в текст
+
+// Вставка иконок в текст
 #let icon(path) = box(
   baseline: 15%,   // выравнивание по нижней линии шрифта
   height: 0.9em,   // подстраивание размера под высоту текущего текста
@@ -174,12 +180,15 @@
   image(path)
 )
 
-// Функция изменения номера следующего списка (по умолчанию сброс на 1)
+
+// Изменение нумерации списка (по умолчанию сброс на 1)
 #let reset-enum(to: 1) = {
   // Установка значения на единицу меньше, так как первый плюс (+) сделает шаг вперед
   global-enum-counter.update(to - 1)
 }
 
+
+// Определение стилей
 #let doc-style(doc-id: "", body) = {
   // Настройки текста и параграфов
   set text(
@@ -239,6 +248,7 @@
     }
   }
 
+
   // Общие настройки для подписей таблиц и рисунков
   set figure.caption(separator: [ — ])
   
@@ -252,7 +262,8 @@
   show figure.caption.where(kind: table): set align(left)
   show figure.caption.where(kind: table): set par(first-line-indent: (amount: 0cm, all: false))
   show figure.where(kind: table): set block(breakable: true, sticky: true)
-  
+
+
   // Настройки маркированных и нумерованных списков
   set list(marker: none, indent: 0pt, body-indent: 0pt)
 
@@ -260,8 +271,8 @@
     #set par(first-line-indent: (amount: 0cm, all: true))
     #h(1.25cm)-#h(0.5em, weak: true)#it.body
   ]
-
-  // Вывод нумерованного списка с поддержкой сквозного счетчика
+ 
+   // Вывод нумерованного списка с поддержкой сквозного счетчика
   show enum: it => {
     let start-num = global-enum-counter.get().first() + 1
     
@@ -277,14 +288,40 @@
     global-enum-counter.update(i => i + it.children.len())
   }
 
+
   // Настройки таблиц и ячеек
   show table: set text(size: 12pt)
   show table: set par(leading: 0.65em, justify: false, first-line-indent: (amount: 0cm, all: false))
   show table: set table(
     align: (col, row) => if row == 0 { center + horizon } else { left + horizon },
-    stroke: 0.5pt + black
+    stroke: 0.5pt + black,
+    inset: (left: 3pt, right: 5pt, y: 5pt) 
   )
-  
+
+  // Удаление внутри таблицы отступов списков
+  show table: it => {
+    // Маркированный список
+    show list.item: item-it => block(width: 100%)[
+      #set par(first-line-indent: (amount: 0cm, all: true))
+      -#h(0.5em, weak: true)#item-it.body
+    ]
+    
+    // Нумерованный список с поддержкой сквозного счетчика
+    show enum: enum-it => {
+      let start-num = global-enum-counter.get().first() + 1
+      enum-it.children.enumerate().map(((index, item)) => {
+        let current-num = start-num + index
+        block(width: 100%)[
+          #str(current-num)\)#h(0.5em, weak: true)#item.body
+        ]
+      }).join()
+      global-enum-counter.update(i => i + enum-it.children.len())
+    }
+
+    it
+  }
+
+
   // Настройки страницы и бокового штампа (ЕCПД)
   set page(
     paper: "a4",
@@ -348,6 +385,7 @@
       }
     }
   )
+
 
   // Настройки блока кода (с левой цветной полосой для всех типов кроме исключений) 
   show raw.where(block: true): it => {
