@@ -1,7 +1,7 @@
 // Глобальный счетчик для сквозных списков
 #let global-enum-counter = counter("global-enum-sequence")
 
-// Функция для оформления списка сокращений (по ГОСТ 7.32—2017, на который ссылается ГОСТ Р 2.105—2019 п.6.1.2)
+// Оформление списка сокращений по ГОСТ 7.32—2017, на который ссылается ГОСТ Р 2.105—2019 п.6.1.2
 #let abbreviations(..items) = {
   // Автоматический перенос на новую страницу перед разделом
   pagebreak(weak: true)
@@ -12,7 +12,7 @@
   // Стандартная вводная фраза по ГОСТ
   [В настоящем документе применяют следующие сокращения и обозначения:] 
   
-  // Отступ перед самой таблицей сокращений
+  // Отступ перед таблицей сокращений
   v(12pt)
   
   grid(
@@ -32,6 +32,7 @@
   )
 }
 
+//Функция вывода примечаний
 #let note(..items) = {
   let pos-items = items.pos()
   if pos-items.len() == 0 { return }
@@ -43,6 +44,7 @@
     #set par(first-line-indent: (amount: 0cm, all: false))
     #set text(size: 12pt)
     
+    //Разное оформление в зависимости от того одно или несколько примечаний
     #if pos-items.len() == 1 [
       #h(note-indent)#text(tracking: 0.2em)[Примечание] — #pos-items.at(0)
     ] else [
@@ -56,7 +58,7 @@
 }
 
 #let title-page(doc-id: "", classification: (), title-lines: ()) = {
-  // Фиксируем шрифты и размеры строго для титульного листа
+  // Фиксация шрифтов и размеров для титульного листа
   set text(font: "Liberation Serif", size: 14pt, lang: "ru")
   
   if classification.len() > 0 {
@@ -96,7 +98,7 @@
 }
 
 
-// Вывод Содержания
+// Вывод содержания
 #let contents() = {
   pagebreak(weak: true)
 
@@ -105,7 +107,12 @@
     #heading(level: 1, numbering: none, outlined: false)[Содержание]
   ]
 
-  // Оглавление
+  // Удаление переносов строк (linebreak) внутри элементов оглавления
+  show outline.entry: it => {
+    show linebreak: " "
+    it
+  }
+
   outline(
     title: none,
     indent: 1.25cm,
@@ -116,7 +123,7 @@
 // Счетчик приложений к документу
 #let appendix-counter = counter("appendices")
 
-// Функция приложения по ГОСТ 2.105-2019 / ГОСТ 2.503-2013
+// Функция формирования приложения по ГОСТ 2.105-2019 / ГОСТ 2.503-2013
 #let appendix(title, status: "обязательное", name: none) = {
   appendix-counter.step()
   
@@ -129,15 +136,21 @@
     
     counter(figure.where(kind: image)).update(0)
     counter(figure.where(kind: table)).update(0)
-    
+
     align(center)[
+      // Локальное переопределение правила show heading с выводом текста заголовка по центру
+      #show heading: it => {
+        set text(size: 14pt, weight: "bold") // установка шрифта
+        block(width: 100%)[#it.body]         // вывод тела без h(1.25cm)
+      }
+      
       #heading(level: 1, numbering: none)[
         Приложение #app-letter \
         #text[(#status) \
         #title]
       ]
     ]
-    
+
     if name != none {
       [#metadata(app-letter) #label(name)]
     }
@@ -153,17 +166,17 @@
   }
 }
 
-// Функция для вставки маленьких PNG-иконок прямо в текст
+// Функция для вставки иконок в текст
 #let icon(path) = box(
-  baseline: 15%,   // выравнивает иконку по нижней линии шрифта
-  height: 0.9em,   // автоматически подстраивает размер под высоту текущего текста
-  inset: (x: 2pt), // делает небольшие аккуратные отступы слева и справа от иконки
+  baseline: 15%,   // выравнивание по нижней линии шрифта
+  height: 0.9em,   // подстраивание размера под высоту текущего текста
+  inset: (x: 2pt), // отступы 2pt слева и справа
   image(path)
 )
 
-// Функция для изменения номера следующего списка (по умолчанию сброс на 1)
+// Функция изменения номера следующего списка (по умолчанию сброс на 1)
 #let reset-enum(to: 1) = {
-  // Устанавливаем значение на единицу меньше, так как первый плюс (+) сделает шаг вперед
+  // Установка значения на единицу меньше, так как первый плюс (+) сделает шаг вперед
   global-enum-counter.update(to - 1)
 }
 
@@ -184,28 +197,38 @@
     first-line-indent: (amount: 1.25cm, all: true)
   )
 
+
   // Настройки заголовков
   set heading(numbering: "1.1")
   show heading: set block(above: 24pt, below: 24pt)
-  show heading: pad.with(left: 1.25cm)
   show heading: it => {
     set text(size: 14pt, weight: if it.level == 1 { "bold" } else { "regular" })
-    it
+    
+    // Сборка номера в переменную и возврат пустой строки, если номера нет
+    let num = if it.numbering != none {
+      context counter(heading).display(it.numbering) + h(0.5em)
+    } else {
+      ""
+    }
+    // Рендеринг заголовка
+    block(width: 100%)[
+      #h(1.25cm)#num#it.body
+    ]
   }
-  //Автоматически начинать заголовки первого уровня с новой страницы
+  // Вывод заголовов первого уровня с новой страницы
   show heading.where(level: 1): it => pagebreak(weak: true) + it
-
+  
   // Настройки ссылок с разделением счётчиков таблиц и рисунков
   show ref: it => {
     let el = it.element
     if el != none {
-      // Проверяем, есть ли у элемента поле "kind" (это рисунок или таблица)
+      // Проверка, есть ли у элемента поле "kind" (это рисунок или таблица)
       if el.has("kind") {
-        // Извлекаем точный счётчик именно для этого типа (image или table)
+        // Извлечение счётчик именно для этого типа (image или table)
         let loc = el.location()
         let num = numbering(el.numbering, ..counter(figure.where(kind: el.kind)).at(loc))
         
-        // Создаем кликабельную ссылку с правильным номером
+        // Создание кликабельной ссылки с правильным номером
         link(loc, num)
       } else {
         // Если это ссылка на раздел (heading) или формулу
@@ -238,7 +261,7 @@
     #h(1.25cm)-#h(0.5em, weak: true)#it.body
   ]
 
-  // Автоматический вывод нумерованного списка с поддержкой сквозного счетчика
+  // Вывод нумерованного списка с поддержкой сквозного счетчика
   show enum: it => {
     let start-num = global-enum-counter.get().first() + 1
     
@@ -250,7 +273,7 @@
       ]
     }).join()
     
-    // После отрисовки этого блока списка обновляем счетчик в документе
+    // После отрисовки этого блока списка обновление счетчика в документе
     global-enum-counter.update(i => i + it.children.len())
   }
 
@@ -380,4 +403,3 @@
     ]
   )
 }
-
