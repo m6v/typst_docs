@@ -202,6 +202,28 @@
 }
 
 
+// Обертка для таблиц с автоматической жирной чертой под шапкой
+#let formatted-table(
+  header: (),
+  columns: none,
+  align: (col, row) => if row == 0 { center + horizon } else { left + horizon },
+  ..args
+) = {
+  // Автоматически делаем элементы шапки жирными, если переданы обычные строки/содержимое
+  let formatted-header = header.map(strong)
+
+  table(
+    columns: columns,
+    align: align,
+    table.header(
+      repeat: true,
+      ..formatted-header,
+      table.hline(stroke: 1.5pt + black),
+    ),
+    ..args
+  )
+}
+
 // Определение стилей
 #let doc-style(doc-id: "", body) = {
   // Настройки текста и параграфов
@@ -453,3 +475,14 @@
     ]
   )
 }
+
+#let template = (
+  appendix:appendix,
+  aref:aref,
+  change-log-page: change-log-page,
+  contents: contents,
+  doc-style: doc-style,
+  formatted-table: formatted-table,
+  reset-enum: reset-enum,
+  title-page: title-page,
+)

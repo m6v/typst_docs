@@ -45,6 +45,7 @@
       table.cell(align: center + horizon)[Наименование средства защиты],
       table.cell(align: center + horizon)[Сведения о сертификате],
       table.cell(align: center + horizon)[Место установки],
+      table.hline(stroke: 1.5pt + black),
     ),
     
     align: (left + top, center + top, center + top),  
@@ -95,6 +96,7 @@
       table.cell(align: center + horizon)[Функциональная группа пользователя],
       table.cell(align: center + horizon)[Логическое имя группы],
       table.cell(align: center + horizon)[Возможности (обязанности) пользователей, входящих в группу],
+      table.hline(stroke: 1.5pt + black),
     ),
     align: (center + top, center + top, left + top),  
 
@@ -154,6 +156,7 @@
       table.cell( align: center + horizon)[Уровень конфиден-циаль-ности (мин.:макс.)],
       table.cell( align: center + horizon)[Уровень целост-ности (мин.: макс.)],
       table.cell(align: center + horizon)[Категория],
+      table.hline(stroke: 1.5pt + black),
     ),
     align: (center + top, center + top, center + top, center + top, center + top, center + top, center + top),  
     
