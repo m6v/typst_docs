@@ -1,4 +1,4 @@
-#import "@local/vector:0.1.0": note, reset-enum
+#import "template.typ": note, reset-enum
 
 = Описание старта средств вычислительной техники и процедур проверки правильности старта <startup_description>
     

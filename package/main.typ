@@ -18,3 +18,10 @@
 #let jacarta_applying = include "src/jacarta_applying.typ"
 #let jacarta_description = include "src/jacarta_description.typ"
 #let jacarta_install = include "src/jacarta_install.typ"
+
+// Разделы Руководства по комплексу средств защиты информации
+#let startup_description = include "src/startup_description.typ"
+#let security_testing = include "src/security_testing.typ"
+#let integrity_maintenance = include "src/integrity_maintenance.typ"
+#let security_measures = include "src/security_measures.typ"
+#let system_restrictions = include "src/system_restrictions.typ"
