@@ -1,14 +1,16 @@
+#import "@local/vector:0.1.0": astra_install, kpsgp_install, drweb_install, sobol_install, jacarta_install
+
 = Описание установки и настройки средств защиты информации <security_deployment>
 
 Установку и настройку средств защиты информации (генерация комплекса средств защиты информации), проверку бесконфликтности их функционирования со средствами антивирусной защиты и специальным программным обеспечением выполняет предприятие-изготовитель.
 
 == Описание установки средств защиты<security_setup>
 
-#include "astra_install.typ"
-#include "kpsgp_install.typ"
-#include "drweb_install.typ"
-#include "sobol_install.typ"
-#include "jacarta_install.typ"
+#astra_install
+#kpsgp_install
+#drweb_install
+#sobol_install
+#jacarta_install
 
 == Описание настройки средств защиты <security_config>
 

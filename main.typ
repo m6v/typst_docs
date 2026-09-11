@@ -1,1 +1,0 @@
-/home/maksimov/Documents/typst_docs/admin_guide.typ

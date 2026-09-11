@@ -1,4 +1,4 @@
-#import "template.typ": note, icon, reset-enum
+#import "@local/vector:0.1.0": note, reset-enum
 
 = Резервное копирование и восстановление работоспособности комплекса средств защиты информации и защищаемой информации 
 

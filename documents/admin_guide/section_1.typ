@@ -1,4 +1,4 @@
-#import "template.typ": aref
+#import "@local/vector:0.1.0": aref
 
 #let security_class="1Г"
 

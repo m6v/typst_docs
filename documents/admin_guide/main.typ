@@ -1,4 +1,4 @@
-#import "template.typ": doc-style, title-page, contents, appendix, change-log-page
+#import "@local/vector:0.1.0": doc-style, title-page, contents, appendix, change-log-page
 
 
 #let doc-id = "AAAA.123456.789"

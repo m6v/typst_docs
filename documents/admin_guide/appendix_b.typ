@@ -1,4 +1,4 @@
-#import "template.typ": reset-enum, formatted-table, note
+#import "@local/vector:0.1.0": reset-enum, formatted-table, note
 
 Матрица доступа к объектам общего и специального ПО представлена в таблице @matrix.
 

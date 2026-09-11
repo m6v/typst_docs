@@ -1,12 +1,12 @@
-#import "template.typ": note
+#import "@local/vector:0.1.0": sobol_applying, astra_applying, kpsgp_applying, jacarta_applying, note
 
 = Описание применения средств защиты информации и процедур работы со средствами регистрации <security_enforcement>
 
 Управление программными и программно-техническими средствами защиты информации изделия может осуществляться с использованием команд интерпретатора командной строки операционной системы и/или с использованием графического интерфейса пользователя.
 Способ управления (применения) зависит от конкретного средства защиты информации и описывается в настоящем разделе.
 
-#include "sobol_applying.typ"
-#include "astra_applying.typ"
-#include "kpsgp_applying.typ"
-#include "jacarta_applying.typ"
+#sobol_applying
+#astra_applying
+#kpsgp_applying
+#jacarta_applying
 

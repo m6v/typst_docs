@@ -1,0 +1,6 @@
+[package]
+name = "vector"
+version = "0.1.0"
+entrypoint = "main.typ"
+authors = ["Sergey Maksimov"]
+description = "Шаблон ЭД на СЗИ"

@@ -30,7 +30,7 @@
 Диагностику ЗМНИ считают выполненной успешно, если поля «Состояние носителя», «Прошивка», «Ресурс носителя» имеют значения [OK], значение поля «Жизненный цикл» – «ЭН готов к работе» (см. рисунок @fig:jacarta_diag_program).
 
 #figure(
-  image("images/jacarta_diag_program.png"),
+  image("../assets/images/jacarta_diag_program.png"),
   caption: [Интерфейс программы диагностики ЗМНИ «JaCarta SF/ГОСТ»]
 ) <fig:jacarta_diag_program>
 
@@ -49,7 +49,7 @@
 Программа пользователя выводит информацию о выбранном ЗМНИ (см. рисунок @fig:jacarta_user_info).
 
 #figure(
-  image("images/jacarta_user_info.png"),
+  image("../assets/images/jacarta_user_info.png"),
   caption: [Сведения о ЗМНИ «JaCarta SF/ГОСТ», инициализированном как электронный носитель (ЭН) пользователя]
 ) <fig:jacarta_user_info>
 
@@ -131,7 +131,7 @@
 + если выбран режим «Администратор доступа» или «Сервер авторизации», устанавливают переключатель режима в положение «Ключ автономного доступа».
 
 #figure(
-  image("images/jacarta_user_disks.png"),
+  image("../assets/images/jacarta_user_disks.png"),
   caption: [Вкладка Скрытые диски]
 ) <fig:jacarta_user_disks>
 
@@ -146,7 +146,7 @@
 + вводят ПИН-код ЭН (см. рисунок @fig:jacarta_user_auth).
 
 #figure(
-  image("images/jacarta_user_auth.png"),
+  image("../assets/images/jacarta_user_auth.png"),
   caption: [Окно ввода ПИН-кода ЭН]
 ) <fig:jacarta_user_auth>
 
@@ -154,11 +154,11 @@
   [Примечание – Число попыток ввода ограничено 10, при их исчерпании ЭН блокируется. Разблокировка изделия осуществляется предприятием-изготовителем изделия.]
 )
 
-+ вводят ПИН-код пользователя ЭН, затем указывают файл, нажав кнопку #icon("icons/open.png"), и вводят пароль к файлу;
++ вводят ПИН-код пользователя ЭН, затем указывают файл, нажав кнопку #icon("../assets/icons/open.png"), и вводят пароль к файлу;
 + ждут сообщения «Диски подключены» (см. рисунок @fig:jacarta_disks_connected);
 
 #figure(
-  image("images/jacarta_disks_connected.png"),
+  image("../assets/images/jacarta_disks_connected.png"),
   caption: [Сообщение о подключении скрытых разделов ЗМНИ «JaCarta SF/ГОСТ»]
 ) <fig:jacarta_disks_connected>
 
@@ -180,14 +180,14 @@
 )
 
 #figure(
-  image("images/jacarta_disk_busy.png"),
+  image("../assets/images/jacarta_disk_busy.png"),
   caption: [Сообщение о занятом диске]
 ) <fig:jacarta_disk_busy>
 
 + дожидаются сообщения «Диски отключены» (см. рисунок @fig:jacarta_disks_disconnected);
 
 #figure(
-  image("images/jacarta_disks_disconnected.png"),
+  image("../assets/images/jacarta_disks_disconnected.png"),
   caption: [Сообщение об отключении дисков ЗМНИ]
 ) <fig:jacarta_disks_disconnected>
 
