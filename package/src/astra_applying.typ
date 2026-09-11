@@ -1,4 +1,4 @@
-#import "styles.typ": note, icon, reset-enum
+#import "utils.typ": note, icon, reset-enum
 
 == Применение КСЗИ ОС «Astra Linux SE»
 

@@ -1,4 +1,4 @@
-#import "styles.typ": note
+#import "utils.typ": note
 
 == Применение КП СГП
 
