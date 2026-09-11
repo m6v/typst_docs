@@ -1,23 +1,4 @@
-// Глобальный счетчик для сквозных списков
-#let enum-counter = counter("enum-counter")
-// Счетчик приложений к документу
-#let appendix-counter = counter("appendix-counter")
-
-#let appendix-letters = ("А", "Б", "В", "Г", "Д", "Е", "Ж", "И", "К", "Л", "М", "Н", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ш", "Щ", "Э", "Ю", "Я")
-
-// Динамическая нумерация таблиц и рисунков в зависимости от расположения (основная часть или в приложение)
-#let figure-numbering(..args) = context {
-  let appendix-number = appendix-counter.get().first()
-  let figure-number = args.pos().first()
-
-  // Если приложение - вставить букву и номер, например, А.1, иначе - только номер
-  if appendix-number > 0 {
-    let appendix-letter = appendix-letters.at(appendix-number - 1)
-    [#appendix-letter.#str(figure-number)]
-  } else {
-    str(figure-number)
-  }
-}
+#import "utils.typ": appendix-counter, enum-counter, appendix-letters, formatted-table, reset-enum, figure-numbering, aref, icon, no-indent
 
 // Оформление перечня обозначений и сокращений по ГОСТ 7.32—2017, на который ссылается п.6.1.2 ГОСТ Р 2.105—2019 
 #let abbreviations(..items) = {
@@ -174,55 +155,6 @@
   }
 }
 
-
-// Вставка ссылок на приложения
-#let aref(name) = context {
-  let matches = query(label(name))
-  if matches.len() > 0 {
-    matches.first().value
-  } else {
-    [*Error! Reference source not found for "#name"*]
-  }
-}
-
-
-// Вставка иконок в текст
-#let icon(path) = box(
-  baseline: 15%,   // выравнивание по нижней линии шрифта
-  height: 0.9em,   // подстраивание размера под высоту текущего текста
-  inset: (x: 2pt), // отступы 2pt слева и справа
-  image(path)
-)
-
-
-// Изменение нумерации списка (по умолчанию сброс на 1)
-#let reset-enum(to: 1) = {
-  // Установка значения на единицу меньше, так как первый плюс (+) сделает шаг вперед
-  enum-counter.update(to - 1)
-}
-
-
-// Обертка для таблиц с автоматической жирной чертой под шапкой
-#let formatted-table(
-  header: (),
-  columns: none,
-  align: (col, row) => if row == 0 { center + horizon } else { left + horizon },
-  ..args
-) = {
-  // Автоматически делаем элементы шапки жирными, если переданы обычные строки/содержимое
-  let formatted-header = header.map(strong)
-
-  table(
-    columns: columns,
-    align: align,
-    table.header(
-      repeat: true,
-      ..formatted-header,
-      table.hline(stroke: 1.5pt + black),
-    ),
-    ..args
-  )
-}
 
 // Определение стилей
 #let doc-style(doc-id: "", body) = {

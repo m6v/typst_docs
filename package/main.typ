@@ -1,4 +1,4 @@
-#import "src/styles.typ": doc-style, title-page, contents, abbreviations, appendix, change-log-page, note, aref, reset-enum, formatted-table
+#import "src/styles.typ": doc-style, title-page, contents, abbreviations, appendix, change-log-page, note, aref, reset-enum, formatted-table, no-indent
 
 #let sobol_applying = include "src/sobol_applying.typ"
 #let sobol_description = include "src/sobol_description.typ"
