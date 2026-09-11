@@ -1,4 +1,4 @@
-#import "template.typ": note, icon, reset-enum
+#import "styles.typ": note, icon, reset-enum
 
 == Применение КСЗИ ОС «Astra Linux SE»
 

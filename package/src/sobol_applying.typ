@@ -1,4 +1,4 @@
-#import "template.typ": note, reset-enum
+#import "styles.typ": note, reset-enum
 
 == Применение ПАК «Соболь»
 

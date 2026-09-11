@@ -1,4 +1,4 @@
-#import "template.typ": note, reset-enum
+#import "styles.typ": note, reset-enum
 
 == Установка комплекса средств защиты ОС «Astra Linux SE»
 
