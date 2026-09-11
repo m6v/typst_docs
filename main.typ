@@ -1,1 +1,1 @@
-/home/m6v/Documents/typst_docs/admin_guide.typ
+/home/maksimov/Documents/typst_docs/admin_guide.typ
