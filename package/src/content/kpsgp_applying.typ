@@ -1,4 +1,4 @@
-#import "utils.typ": note
+#import "../utils.typ": note
 
 == Применение КП СГП
 
@@ -7,7 +7,7 @@
 После завершения инициализации отображается главное окно программы (см. рисунок @fig:kpsgp_main_window).
 
 #figure(
-  image("../assets/images/kpsgp_main_window.png"),
+  image("assets/images/kpsgp_main_window.png"),
   caption: [Главное окно программы Специализированный генератор паролей]
 ) <fig:kpsgp_main_window>
 
@@ -27,7 +27,7 @@
 Отображение сформированных паролей на экране монитора (см. рисунок @fig:kpsgp_passwd_list) происходит сразу после выполнения операции формирования массива символов (паролей) и не требует выполнения дополнительных действий.
 
 #figure(
-  image("../assets/images/kpsgp_passwd_list.png"),
+  image("assets/images/kpsgp_passwd_list.png"),
   caption: [Отображение сформированных паролей]
 ) <fig:kpsgp_passwd_list>
 
@@ -42,7 +42,7 @@
 )
 
 #figure(
-  image("../assets/images/kpsgp_connection_settings.png"),
+  image("assets/images/kpsgp_connection_settings.png"),
   caption: [Настройка соединения]
 ) <fig:kpsgp_connection_settings>
 
@@ -59,7 +59,7 @@
 Далее нажимают кнопку [Генерировать/Установить пароль] (см. рисунок @fig:kpsgp_passwd_assignment).
 
 #figure(
-  image("../assets/images/kpsgp_passwd_assignment.png"),
+  image("assets/images/kpsgp_passwd_assignment.png"),
   caption: [Присвоение сформированных паролей пользователям]
 ) <fig:kpsgp_passwd_assignment>
 

@@ -1,4 +1,4 @@
-#import "utils.typ": note, reset-enum
+#import "../utils.typ": note, reset-enum
 
 = Описание старта средств вычислительной техники и процедур проверки правильности старта <startup_description>
     

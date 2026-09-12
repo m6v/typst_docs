@@ -12,7 +12,7 @@ install:
 	@echo "Создание директории: $(TARGET_DIR)"
 	@mkdir -p "$(TARGET_DIR)"
 	@echo "Копирование файлов и папок..."
-	@cp -rf assets src main.typ typst.toml README.md TODO "$(TARGET_DIR)/"
+	@cp -rf src main.typ typst.toml README.md TODO "$(TARGET_DIR)/"
 	@echo "Готово."
 
 # Удаление шаблона из системы

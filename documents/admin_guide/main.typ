@@ -5,7 +5,7 @@
 #let security-class="1Г"
 
 //Применение стилей оформления
-#show: doc-style.with(doc-id: doc-id)
+#show: text-document.with(doc-id: doc-id)
 
 //Титульный лист
 #titlepage(

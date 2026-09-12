@@ -1,4 +1,4 @@
-#import "utils.typ": note, reset-enum
+#import "../utils.typ": note, reset-enum
 
 == Описание КСЗИ ОС «Astra Linux SE»
 

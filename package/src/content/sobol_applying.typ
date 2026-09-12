@@ -1,4 +1,4 @@
-#import "utils.typ": note, reset-enum
+#import "../utils.typ": note, reset-enum
 
 == Применение ПАК «Соболь»
 
@@ -41,7 +41,7 @@
 )
 
 #figure(
-  image("../assets/images/sobol_admin_choice.png"),
+  image("assets/images/sobol_admin_choice.png"),
   caption: [Информационное окно ПАК «Соболь»]
 ) <fig:sobol_admin_choice>
 
@@ -60,7 +60,7 @@
 Для перехода в меню настроек ПАК «Соболь» нажимают кнопку [Настройки], при этом на экране появляется меню администратора ПАК «Соболь» (рисунок @fig:sobol_load_sys_parms).
 
 #figure(
-  image("../assets/images/sobol_load_sys_parms.png"),
+  image("assets/images/sobol_load_sys_parms.png"),
   caption: [Окно с меню администратора]
 ) <fig:sobol_load_sys_parms>
 
@@ -78,7 +78,7 @@
 Для управления пользователями выбирают элемент «Список пользователей в меню администратора, при этом окно принимает вид, подобный показанному на рисунке @fig:sobol_users_accounts_sys_parms.
 
 #figure(
-  image("../assets/images/sobol_users_accounts_sys_parms.png"),
+  image("assets/images/sobol_users_accounts_sys_parms.png"),
   caption: [Окно с меню администратора]
 ) <fig:sobol_users_accounts_sys_parms>
 
@@ -244,7 +244,7 @@
 При выборе в меню администратора пункта «Журнал событий» окно примет вид, подобный показанному на рисунке @fig:sobol_events_journal
 
 #figure(
-  image("../assets/images/sobol_events_journal.png"),
+  image("assets/images/sobol_events_journal.png"),
   caption: [Окно «Журнал событий»]
 ) <fig:sobol_events_journal>
 

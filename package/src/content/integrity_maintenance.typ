@@ -1,4 +1,4 @@
-#import "utils.typ": note, reset-enum, no-indent
+#import "../utils.typ": note, reset-enum, no-indent
 
 = Обеспечение целостности среды функционирования <integrity_maintenance>
 
