@@ -1,36 +1,5 @@
-
-#let appendix-letters = ("А", "Б", "В", "Г", "Д", "Е", "Ж", "И", "К", "Л", "М", "Н", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ш", "Щ", "Э", "Ю", "Я")
-
 // Глобальный счетчик для сквозных списков
 #let enum-counter = counter("enum-counter")
-// Счетчик приложений к документу
-#let appendix-counter = counter("appendix-counter")
-
-
-// Динамическая нумерация таблиц и рисунков в зависимости от расположения (основная часть или в приложение)
-#let figure-numbering(..args) = context {
-  let appendix-number = appendix-counter.get().first()
-  let figure-number = args.pos().first()
-
-  // Если приложение - вставить букву и номер, например, А.1, иначе - только номер
-  if appendix-number > 0 {
-    let appendix-letter = appendix-letters.at(appendix-number - 1)
-    [#appendix-letter.#str(figure-number)]
-  } else {
-    str(figure-number)
-  }
-}
-
-// Вставка ссылок на приложения
-#let aref(name) = context {
-  let matches = query(label(name))
-  if matches.len() > 0 {
-    matches.first().value
-  } else {
-    [*Error! Reference source not found for "#name"*]
-  }
-}
-
 
 // Вставка иконок в текст
 #let icon(path) = box(
@@ -39,7 +8,6 @@
   inset: (x: 2pt), // отступы 2pt слева и справа
   image(path)
 )
-
 
 // Вывод примечаний
 #let note(..items) = {

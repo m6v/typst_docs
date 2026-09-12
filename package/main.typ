@@ -1,5 +1,5 @@
-#import "src/styles.typ": doc-style, title-page, contents, abbreviations, appendix, change-log-page
-#import "src/utils.typ": figure-numbering, aref, icon, reset-enum, no-indent, formatted-table, note
+#import "src/styles.typ": doc-style, titlepage, contents, abbreviations, appendixes, changelog
+#import "src/utils.typ": icon, note, reset-enum, no-indent, formatted-table
 
 #let sobol_description = include "src/sobol_description.typ"
 #let sobol_install = include "src/sobol_install.typ"

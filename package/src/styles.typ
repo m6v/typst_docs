@@ -1,4 +1,8 @@
-#import "utils.typ": appendix-counter, enum-counter, appendix-letters, figure-numbering
+#import "utils.typ": enum-counter
+
+// Константы и глобальное состояние для приложений
+#let appendix-letters = ("А", "Б", "В", "Г", "Д", "Е", "Ж", "И", "К", "Л", "М", "Н", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ш", "Щ", "Э", "Ю", "Я")
+#let appendix-counter = counter("appendix")
 
 // Оформление перечня обозначений и сокращений по ГОСТ 7.32—2017, на который ссылается п.6.1.2 ГОСТ Р 2.105—2019 
 #let abbreviations(..items) = {
@@ -8,7 +12,7 @@
   // Вывод заголовка первого уровня без нумерации и включения в оглавление документа
   heading(level: 1, numbering: none, outlined: false)[Обозначения и сокращения]
 
-  // Стандартная вводная фраза по ГОСТ
+  // Вводная фраза по ГОСТ
   [В настоящем документе применяют следующие сокращения и обозначения:] 
   
   // Отступ перед таблицей сокращений
@@ -33,7 +37,7 @@
 
 
 // Вывод титульной страницы
-#let title-page(doc-id: "", classification: (), title-lines: ()) = {
+#let titlepage(doc-id: "", classification: (), title-lines: ()) = {
   // Фиксация шрифтов и размеров для титульного листа
   set text(font: "Liberation Serif", size: 14pt, lang: "ru")
   
@@ -96,43 +100,8 @@
   )
 }
 
-
-// Оформление приложения по ГОСТ 2.105-2019 / ГОСТ 2.503-2013
-#let appendix(title, status: "обязательное", name: none) = {
-  appendix-counter.step()
-
-  // Сброс нумерации таблиц и рисунков внутри текущего приложения
-  counter(figure.where(kind: image)).update(0)
-  counter(figure.where(kind: table)).update(0)
-
-  pagebreak(weak: true)
-
-  context {
-    let num = appendix-counter.get().first()
-    let appendix-letter = appendix-letters.at(num - 1)
-
-    align(center)[
-      #show heading: it => {
-        set text(size: 14pt, weight: "bold")
-        block(width: 100%)[#it.body]
-      }
-      
-      #heading(level: 1, numbering: none)[
-        Приложение #appendix-letter \
-        #text[(#status)] \
-        #title
-      ]
-    ]
-
-    if name != none {
-      [#metadata(appendix-letter) #label(name)]
-    }
-  }
-}
-
-
 // Лист регистрации изменений по ГОСТ 2.503-2013 Приложение В
-#let change-log-page() = {
+#let changelog() = {
   page(
     margin: (top: 15mm, left: 15mm, right: 15mm, bottom: 5mm),
     [
@@ -167,6 +136,31 @@
 }
 
 
+// Функция вызывается генерации номеров приложений (в тексте и оглавлении)
+#let appendix-numbering(..args) = {
+  let nums = args.pos()
+  if nums.len() == 1 {
+    let letter = appendix-letters.at(nums.first() - 1)
+    [Приложение #letter]
+  } else {
+    let letter = appendix-letters.at(nums.first() - 1)
+    let sub-nums = nums.slice(1).map(str).join(".")
+    [#letter.#sub-nums]
+  }
+}
+
+// Шоу-правило, которое меняет схему нумерации и сбрасывает счетчики
+#let appendixes(body) = {
+  set heading(numbering: appendix-numbering)
+  
+  // Сброс системных счетчиков
+  counter(heading).update(0)
+  counter(figure.where(kind: image)).update(0)
+  counter(figure.where(kind: table)).update(0)
+  
+  body
+}
+
 // Определение стилей
 #let doc-style(doc-id: "", body) = {
   // Настройки текста и параграфов
@@ -185,42 +179,78 @@
     first-line-indent: (amount: 1.25cm, all: true)
   )
 
-
-  // Настройки заголовков
+  // Настройка заголовков для основной части документа
   set heading(numbering: "1.1")
   show heading: set block(above: 24pt, below: 24pt)
-  show heading: it => {
-    set text(size: 14pt, weight: if it.level == 1 { "bold" } else { "regular" })
-    
-    // Сборка номера в переменную и возврат пустой строки, если номера нет
-    let num = if it.numbering != none {
-      context counter(heading).display(it.numbering) + h(0.5em)
-    } else {
-      ""
-    }
-    // Рендеринг заголовка
-    block(width: 100%)[
-      #h(1.25cm)#num#it.body
-    ]
-  }
-  // Вывод заголовов первого уровня с новой страницы
-  show heading.where(level: 1): it => pagebreak(weak: true) + it
   
+  // Единое правило отображения заголовков (управляет внешним видом)
+  show heading: it => {
+    set text(size: 14pt)
+    
+    if it.level == 1 {
+      // Для первого уровня (и глав, и приложений) делаем разрыв страницы
+      pagebreak(weak: true)
+      
+      // Проверяем, какой паттерн нумерации сейчас активен в документе
+      if it.numbering == appendix-numbering {
+        // Оформление Приложений (по центру, без абзацного отступа)
+        align(center)[
+          #set text(weight: "bold")
+          #set par(first-line-indent: 0cm)
+          // Нативный вывод номера ("Приложение А")
+          #context counter(heading).display(it.numbering) \
+          // Название приложения
+          #it.body
+        ]
+      } else {
+        // Оформление заголовкоа уровня 1 (жирный, с абзацным отступом)
+        block(width: 100%)[
+          #set text(weight: "bold")
+          #h(1.25cm)
+          #if it.numbering != none { 
+            context counter(heading).display(it.numbering)
+            h(0.5em) 
+          }
+          #it.body
+        ]
+      }
+    } else {
+      // Оформление для заголовков уровня 2 и ниже
+      block(width: 100%)[
+        #set text(weight: "regular")
+        #h(1.25cm)
+        #if it.numbering != none { 
+          context counter(heading).display(it.numbering)
+          h(0.5em) 
+        }
+        #it.body
+      ]
+    }
+  }
+
   // Настройки ссылок с разделением счётчиков таблиц и рисунков
   show ref: it => {
     let el = it.element
     if el != none {
-      // Проверка, есть ли у элемента поле "kind" (это рисунок или таблица)
-      if el.has("kind") {
-        // Извлечение счётчик именно для этого типа (image или table)
-        let loc = el.location()
-        let num = numbering(el.numbering, ..counter(figure.where(kind: el.kind)).at(loc))
+      context {
+        // 1. Проверяем, ведет ли ссылка на заголовок приложения 1-го уровня
+        if el.func() == heading and el.level == 1 and el.numbering == appendix-numbering {
+          let heading-nums = counter(heading).at(el.location())
+          if heading-nums.len() > 0 {
+            let letter = appendix-letters.at(heading-nums.first() - 1)
+            return link(el.location(), letter) // Возвращаем только букву
+          }
+        }
         
-        // Создание кликабельной ссылки с правильным номером
-        link(loc, num)
-      } else {
-        // Если это ссылка на раздел (heading) или формулу
-        link(el.location(), numbering(el.numbering, ..counter(el.func()).at(el.location())))
+        // Обработка ссылок на рисунки и таблицы
+        if el.has("kind") {
+          let loc = el.location()
+          let num = numbering(el.numbering, ..counter(figure.where(kind: el.kind)).at(loc))
+          link(loc, num)
+        } else {
+          // Обработка ссылок на обычные заголовки и  формулы
+          link(el.location(), numbering(el.numbering, ..counter(el.func()).at(el.location())))
+        }
       }
     } else {
       it
@@ -230,8 +260,20 @@
   // Общие настройки для подписей таблиц и рисунков
   set figure.caption(separator: [ — ])
 
-  // Подключение кастомного нумератора таблиц и рисунков
-  set figure(numbering: figure-numbering)
+  // Динамическая нумерация рисунков и таблиц по ГОСТ (учитывает обычные главы и приложения)
+  set figure(numbering: (..args) => context {
+    let heading-nums = counter(heading).get()
+    let fig-num = args.pos().first()
+    
+    // Проверяем, включен ли сейчас режим нумерации приложений
+    if heading-nums.len() > 0 and heading.numbering == appendix-numbering {
+      let letter = appendix-letters.at(heading-nums.first() - 1)
+      [#letter.#fig-num]
+    } else {
+      // Стандартная нумерация для основного текста
+      str(fig-num) 
+    }
+  })
 
   // Настройка подписей рисунков
   show figure.where(kind: image): set figure(supplement: [Рисунок])
@@ -252,7 +294,7 @@
     #h(1.25cm)-#h(0.5em, weak: true)#it.body
   ]
  
-   // Вывод нумерованного списка с поддержкой сквозного счетчика
+  // Вывод нумерованного списка с поддержкой сквозного счетчика
   show enum: it => {
     let start-num = enum-counter.get().first() + 1
     
@@ -264,7 +306,6 @@
       ]
     }).join()
     
-    // Обновление глобального счетчика нумерованных списков
     enum-counter.update(i => i + it.children.len())
   }
 
@@ -279,13 +320,11 @@
 
   // Удаление внутри таблицы отступов списков
   show table: it => {
-    // Маркированный список
     show list.item: item-it => block(width: 100%)[
       #set par(first-line-indent: (amount: 0cm, all: true))
       -#h(0.5em, weak: true)#item-it.body
     ]
     
-    // Нумерованный список с поддержкой сквозного счетчика
     show enum: enum-it => {
       let start-num = enum-counter.get().first() + 1
       enum-it.children.enumerate().map(((index, item)) => {
@@ -305,7 +344,6 @@
     paper: "a4",
     margin: (left: 2.5cm, right: 1.5cm, top: 2cm, bottom: 2cm),
     
-    // Верхний колонтитул добавлять со второй страницы
     header: context {
       let page-num = counter(page).get().first()
       if page-num > 1 {
@@ -316,26 +354,16 @@
     background: context {
       let page-num = counter(page).get().first()
       
-      set text(
-        font: "Liberation Serif", 
-        size: 6.5pt, 
-        tracking: -0.03em, 
-        fill: black
-      )
+      set text(font: "Liberation Serif", size: 6.5pt, tracking: -0.03em, fill: black)
       set par(leading: 0.25em, first-line-indent: (amount: 0cm, all: false))
       
       if page-num == 1 {
-        // Штамп первой страницы
         place(
-          left + bottom, 
-          dx: 0.5cm,     
-          dy: -0.5cm,    
+          left + bottom, dx: 0.5cm, dy: -0.5cm,    
           rotate(-90deg, reflow: true)[
             #table(
-              columns: (2.5cm, 3.5cm, 2.5cm, 2.5cm, 3.5cm, 5cm), 
-              rows: (0.5cm, 0.5cm),               
-              align: left + horizon,
-              inset: (left: 4pt, right: 2pt, y: 0pt), 
+              columns: (2.5cm, 3.5cm, 2.5cm, 2.5cm, 3.5cm, 5cm), rows: (0.5cm, 0.5cm),               
+              align: left + horizon, inset: (left: 4pt, right: 2pt, y: 0pt), 
               stroke: (col, row) => if col == 5 { none } else { 1pt + black },
               [Инв. № подл.], [Подп. и дата], [Взам. инв. №], [Инв. № дубл.], [Подп. и дата], [Разраб.],
               [], [], [], [], [], [Н.Контр]
@@ -343,18 +371,12 @@
           ]
         )
       } else {
-        // Штамп последующих страниц
         place(
-          left + bottom, 
-          dx: 0.5cm,     
-          dy: -0.5cm, 
+          left + bottom, dx: 0.5cm, dy: -0.5cm, 
           rotate(-90deg, reflow: true)[
             #table(
-              columns: (2.5cm, 3.5cm, 2.5cm, 2.5cm, 3.5cm), 
-              rows: (0.5cm, 0.5cm),               
-              align: left + horizon,
-              inset: (left: 4pt, right: 2pt, y: 0pt), 
-              stroke: 1pt + black,
+              columns: (2.5cm, 3.5cm, 2.5cm, 2.5cm, 3.5cm), rows: (0.5cm, 0.5cm),               
+              align: left + horizon, inset: (left: 4pt, right: 2pt, y: 0pt), stroke: 1pt + black,
               [Инв. № подл.], [Подп. и дата], [Взам. инв. №], [Инв. № дубл.], [Подп. и дата],
               [], [], [], [], []
             )
@@ -364,11 +386,9 @@
     }
   )
 
-  // Настройки блока кода (с левой цветной полосой для всех типов кроме исключений) 
+  // Настройки блока кода (с левой цветной полосой)
   show raw.where(block: true): it => {
-    // Список языков/типов, для которых не нужна полоса
     let is-plain = it.lang in ("text", "console", "test", none)
-
     block(
       fill: rgb("#f3f4f6"),
       stroke: if is-plain { none } else { (left: 3pt + rgb("#2563eb")) },
@@ -379,6 +399,5 @@
     )
   }
 
-  // Передаем основной документ
   body
 }
