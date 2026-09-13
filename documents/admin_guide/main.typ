@@ -261,7 +261,8 @@
 #show: appendixes
 #include "appendix_a.typ"
 #include "appendix_b.typ"
-#include "appendix_c.typ"
+#appendix(status: "рекомендуемое", include "appendix_c.typ")
+//#include "appendix_c.typ"
 
 //Лист регистрации изменений
 #changelog()

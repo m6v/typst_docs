@@ -5,7 +5,7 @@
 #import "src/components/titlepage.typ": titlepage
 #import "src/components/contents.typ": contents
 #import "src/components/abbreviations.typ": abbreviations
-#import "src/components/appendixes.typ": appendixes
+#import "src/components/appendixes.typ": appendixes, appendix
 #import "src/components/changelog.typ": changelog
 
 // Описание средств ЗИ, порядка их установки и применения

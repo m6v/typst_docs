@@ -69,8 +69,23 @@
           #align(center)[
             #set text(weight: "bold")
             #set par(first-line-indent: 0cm)
+            
+            // 1. Строка с номером ("Приложение А")
             #context counter(heading).display(it.numbering)
+            
+            // 2. Вставка статуса приложения (если задан через #appendix)
+            #context {
+              let st = state("app-status", none).get()
+              if st != none {
+                v(app-gap, weak: true)
+                set text(weight: "bold")
+                [(#st)]
+              }
+            }
+            
+            // 3. Наименование приложения
             #v(app-gap, weak: true)
+            #set text(weight: "bold")
             #it.body
           ]
         ]
