@@ -46,30 +46,37 @@
 
   // Настройка заголовков для основной части документа
   set heading(numbering: "1.1")
-  show heading: set block(above: 24pt, below: 24pt)
   
   // Единое правило отображения заголовков (управляет внешним видом)
   show heading: it => {
     set text(size: 14pt)
     
+    // Отступы заголовков
+    let h1-below   = 24pt
+    let h2-above   = 20pt
+    let h2-below   = 12pt
+    // Отступ между заголовком и наименованием приложений
+    let app-gap    = 12pt 
+    // Межстрочный интервал внутри многострочных заголовков
+    set par(leading: 0.65em)
+    
     if it.level == 1 {
-      // Для первого уровня (и глав, и приложений) делаем разрыв страницы
       pagebreak(weak: true)
       
-      // Проверяем, какой паттерн нумерации сейчас активен в документе
       if it.numbering == appendix-numbering {
-        // Оформление Приложений (по центру, без абзацного отступа)
-        align(center)[
-          #set text(weight: "bold")
-          #set par(first-line-indent: 0cm)
-          // Нативный вывод номера ("Приложение А")
-          #context counter(heading).display(it.numbering) \
-          // Название приложения
-          #it.body
+        // Оформление приложений
+        block(width: 100%, below: h1-below)[
+          #align(center)[
+            #set text(weight: "bold")
+            #set par(first-line-indent: 0cm)
+            #context counter(heading).display(it.numbering)
+            #v(app-gap, weak: true)
+            #it.body
+          ]
         ]
       } else {
-        // Оформление заголовкоа уровня 1 (жирный, с абзацным отступом)
-        block(width: 100%)[
+        // Оформление заголовков раздела (уровень 1)
+        block(width: 100%, below: h1-below)[
           #set text(weight: "bold")
           #h(1.25cm)
           #if it.numbering != none { 
@@ -80,8 +87,12 @@
         ]
       }
     } else {
-      // Оформление для заголовков уровня 2 и ниже
-      block(width: 100%)[
+      // Оформление подразделов, пунктов и подпунктов (уровень 2 и ниже)
+      block(
+        width: 100%, 
+        above: h2-above, 
+        below: h2-below
+      )[
         #set text(weight: "regular")
         #h(1.25cm)
         #if it.numbering != none { 
@@ -98,12 +109,12 @@
     let el = it.element
     if el != none {
       context {
-        // 1. Проверяем, ведет ли ссылка на заголовок приложения 1-го уровня
+        // Обработка ссылок на приложения
         if el.func() == heading and el.level == 1 and el.numbering == appendix-numbering {
           let heading-nums = counter(heading).at(el.location())
           if heading-nums.len() > 0 {
             let letter = appendix-letters.at(heading-nums.first() - 1)
-            return link(el.location(), letter) // Возвращаем только букву
+            return link(el.location(), letter)
           }
         }
         
