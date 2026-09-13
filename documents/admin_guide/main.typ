@@ -259,10 +259,15 @@
 
 //Приложения
 #show: appendixes
+
+#heading(level: 1, supplement: "рекомендуемое")[Тестовое приложение]
+
 #include "appendix_a.typ"
 #include "appendix_b.typ"
-#appendix(status: "рекомендуемое", include "appendix_c.typ")
-//#include "appendix_c.typ"
+#include "appendix_c.typ"
+
+// Пример вставки приложения с недефолтным статусом
+//#appendix(include "appendix_c.typ", status: "рекомендуемое")
 
 //Лист регистрации изменений
 #changelog()

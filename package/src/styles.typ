@@ -44,10 +44,10 @@
   }
 
 
-  // Настройка заголовков для основной части документа
+  // Настройка нумерации заголовков
   set heading(numbering: "1.1")
   
-  // Единое правило отображения заголовков (управляет внешним видом)
+  // Правило отображения заголовков
   show heading: it => {
     set text(size: 14pt)
     
@@ -55,44 +55,36 @@
     let h1-below   = 24pt
     let h2-above   = 20pt
     let h2-below   = 12pt
-    // Отступ между заголовком и наименованием приложений
-    let app-gap    = 12pt 
-    // Межстрочный интервал внутри многострочных заголовков
+    // Отступ между заголовком и наименованием приложения
+    let appendix-gap    = 12pt 
+    // Межстрочный интервал в многострочном заголовке
     set par(leading: 0.65em)
     
     if it.level == 1 {
       pagebreak(weak: true)
       
       if it.numbering == appendix-numbering {
-        // Оформление приложений
+        // Оформление приложений к основной части
         block(width: 100%, below: h1-below)[
           #align(center)[
-            #set text(weight: "bold")
             #set par(first-line-indent: 0cm)
-            
-            // 1. Строка с номером ("Приложение А")
+
+            // Вывод строки с номером приложения
             #context counter(heading).display(it.numbering)
-            
-            // 2. Вставка статуса приложения (если задан через #appendix)
-            #context {
-              let st = state("app-status", none).get()
-              if st != none {
-                v(app-gap, weak: true)
-                set text(weight: "bold")
-                [(#st)]
-              }
-            }
-            
-            // 3. Наименование приложения
-            #v(app-gap, weak: true)
-            #set text(weight: "bold")
+
+            // Вывод строки со статусом приложения из it.supplement
+            #v(appendix-gap, weak: true)
+            (#it.supplement)
+
+            // Вывод наименования приложения
+            #v(appendix-gap, weak: true)
             #it.body
           ]
         ]
       } else {
         // Оформление заголовков раздела (уровень 1)
         block(width: 100%, below: h1-below)[
-          #set text(weight: "bold")
+          //#set text(weight: "bold")
           #h(1.25cm)
           #if it.numbering != none { 
             context counter(heading).display(it.numbering)
