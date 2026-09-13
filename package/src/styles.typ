@@ -19,6 +19,31 @@
     first-line-indent: (amount: 1.25cm, all: true)
   )
 
+  // Перехват текстовых блоков для примечаний
+  show raw.where(lang: "notes"): it => {
+    let note-indent = 1.25cm
+    // Блок кода сохраняет переносы строк, разбиваем их по \n
+    let lines = it.text.split("\n").filter(l => l.trim() != "")
+    
+    block(width: 100%, above: 1.5em, below: 1.5em)[
+      #set par(first-line-indent: 0cm, leading: 1em)
+      #set text(font: "Liberation Serif", size: 12pt) // Возвращаем ваш шрифт вместо моноширинного
+      
+      #if lines.len() == 1 {
+        [#h(note-indent)#text(tracking: 0.2em)[Примечание] — #lines.at(0)]
+      } else {
+        [
+          #h(note-indent)#text(tracking: 0.2em)[Примечания]
+          #v(0.5em, weak: true)
+          #lines.enumerate().map(((i, line)) => [
+            #h(note-indent)#(i + 1) #line
+          ]).join([\ ])
+        ]
+      }
+    ]
+  }
+
+
   // Настройка заголовков для основной части документа
   set heading(numbering: "1.1")
   show heading: set block(above: 24pt, below: 24pt)
