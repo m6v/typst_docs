@@ -19,31 +19,6 @@
     first-line-indent: (amount: 1.25cm, all: true)
   )
 
-  // Перехват текстовых блоков для примечаний
-  show raw.where(lang: "notes"): it => {
-    let note-indent = 1.25cm
-    // Блок кода сохраняет переносы строк, разбиваем их по \n
-    let lines = it.text.split("\n").filter(l => l.trim() != "")
-    
-    block(width: 100%, above: 1.5em, below: 1.5em)[
-      #set par(first-line-indent: 0cm, leading: 1em)
-      #set text(font: "Liberation Serif", size: 12pt) // Возвращаем ваш шрифт вместо моноширинного
-      
-      #if lines.len() == 1 {
-        [#h(note-indent)#text(tracking: 0.2em)[Примечание] — #lines.at(0)]
-      } else {
-        [
-          #h(note-indent)#text(tracking: 0.2em)[Примечания]
-          #v(0.5em, weak: true)
-          #lines.enumerate().map(((i, line)) => [
-            #h(note-indent)#(i + 1) #line
-          ]).join([\ ])
-        ]
-      }
-    ]
-  }
-
-
   // Настройка нумерации заголовков
   set heading(numbering: "1.1")
   
@@ -72,19 +47,18 @@
             // Вывод строки с номером приложения
             #context counter(heading).display(it.numbering)
 
-            // Вывод строки со статусом приложения из it.supplement
+            // Вывод в скобках строки со статусом приложения из it.supplement
             #v(appendix-gap, weak: true)
             (#it.supplement)
 
-            // Вывод наименования приложения
+            // Вывод наименования заголовка приложения
             #v(appendix-gap, weak: true)
             #it.body
           ]
         ]
       } else {
-        // Оформление заголовков раздела (уровень 1)
+        // Оформление заголовков разделов (уровень 1) основной части
         block(width: 100%, below: h1-below)[
-          //#set text(weight: "bold")
           #h(1.25cm)
           #if it.numbering != none { 
             context counter(heading).display(it.numbering)
