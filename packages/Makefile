@@ -1,6 +1,7 @@
 TARGET_DIR = $(HOME)/.local/share/typst/packages/local
+GEANY_CONF := $(HOME)/.config/geany/filetype_extensions.conf
 
-.PHONY: all install clean
+.PHONY: all install clean geany
 
 all: install
 
@@ -11,6 +12,16 @@ install:
 	@echo "Копирование файлов и папок..."
 	@find . -maxdepth 1 -type d ! -name "." ! -name ".*" -exec cp -r {} $(TARGET_DIR)/ \;
 	@echo "Готово."
+
+# Настройка конфигурации geany
+geany:
+	@mkdir -p $(dir $(GEANY_CONF))
+	@touch $(GEANY_CONF)
+	@grep -qF 'Typst=*.typ;' $(GEANY_CONF) || \
+		(grep -q '^\[Extensions\]' $(GEANY_CONF) && \
+		sed -i '/^\[Extensions\]/a Typst=*.typ;' $(GEANY_CONF) || \
+		printf '\n[Extensions]\nTypst=*.typ;\n' >> $(GEANY_CONF))
+	@cp -u filetypes.Typst.conf $(HOME)/.config/geany/filedefs
 
 # Удаление локальных пакетов typst
 clean:
