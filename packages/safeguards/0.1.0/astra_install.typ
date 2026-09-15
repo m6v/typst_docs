@@ -1,4 +1,4 @@
-#import "../utils.typ": note, reset-enum
+#import "@local/gost-2-105:0.1.0": *
 
 == Установка комплекса средств защиты ОС «Astra Linux SE»
 

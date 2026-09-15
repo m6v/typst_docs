@@ -1,4 +1,5 @@
-#import "@local/vector:0.1.0": *
+#import "@local/gost-2-105:0.1.0": *
+#import "@local/safeguards:0.1.0": *
 
 #let doc-id = "AAAA.123456.789"
 #let product-name = "УТЦ"

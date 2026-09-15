@@ -1,4 +1,5 @@
-#import "../utils.typ": note, icon, reset-enum
+#import "@local/gost-2-105:0.1.0": *
+
 == Применение ПК «Ребус-СОВ»
 
 === Применение средства настройки агентской части
@@ -116,17 +117,17 @@
       table.cell(align: center + horizon)[Значение],
     ),
  
-    [#icon("content/assets/icons/rebus-sov_online_station.png")], [Контролируемая рабочая станция, доступная по сети в настоящий момент],
+    [#icon(image("assets/icons/rebus-sov_online_station.png"))], [Контролируемая рабочая станция, доступная по сети в настоящий момент],
     
-    [#icon("content/assets/icons/rebus-sov_unauthenticated_station.png")], [Контролируемая рабочая станция, которая при подключении к серверу СОВ не прошла аутентификацию],
+    [#icon(image("assets/icons/rebus-sov_unauthenticated_station.png"))], [Контролируемая рабочая станция, которая при подключении к серверу СОВ не прошла аутентификацию],
     
-    [#icon("content/assets/icons/rebus-sov_info_station.png")], [Контролируемая рабочая станция, на которой установки, заданные по умолчанию, изменены (отключены агентские плагины)],
+    [#icon(image("assets/icons/rebus-sov_info_station.png"))], [Контролируемая рабочая станция, на которой установки, заданные по умолчанию, изменены (отключены агентские плагины)],
 
-    [#icon("content/assets/icons/rebus-sov_agentless_station.png")], [Контролируемая рабочая станция, на которой не запущена агентская часть программы],
+    [#icon(image("assets/icons/rebus-sov_agentless_station.png"))], [Контролируемая рабочая станция, на которой не запущена агентская часть программы],
     
-    [#icon("content/assets/icons/rebus-sov_offline_station.png")], [Контролируемая рабочая станция, недоступная по сети в настоящий момент],
+    [#icon(image("assets/icons/rebus-sov_offline_station.png"))], [Контролируемая рабочая станция, недоступная по сети в настоящий момент],
     
-    [#icon("content/assets/icons/rebus-sov_disabled_station.png")], [Контролируемая рабочая станция, которая завершила свою работу, не пройдя аутентификацию],
+    [#icon(image("assets/icons/rebus-sov_disabled_station.png"))], [Контролируемая рабочая станция, которая завершила свою работу, не пройдя аутентификацию],
   )
 ) <fig:rebus-sov_stations_status>
 

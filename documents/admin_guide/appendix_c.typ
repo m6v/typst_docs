@@ -1,4 +1,4 @@
-#import "@local/vector:0.1.0": reset-enum, note
+#import "@local/gost-2-105:0.1.0": *
 
 = Список объектов, целостность которых подлежит контролю <immutable_objects>
 

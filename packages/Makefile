@@ -1,7 +1,7 @@
 PACKAGE_NAME =vector
 VERSION = 0.1.0
 
-TARGET_DIR = $(HOME)/.local/share/typst/packages/local/$(PACKAGE_NAME)/$(VERSION)
+TARGET_DIR = $(HOME)/.local/share/typst/packages/local
 
 .PHONY: all install clean
 
@@ -12,7 +12,7 @@ install:
 	@echo "Создание директории: $(TARGET_DIR)"
 	@mkdir -p "$(TARGET_DIR)"
 	@echo "Копирование файлов и папок..."
-	@cp -rf src main.typ typst.toml README.md TODO "$(TARGET_DIR)/"
+	@find . -maxdepth 1 -type d ! -name "." ! -name ".*" -exec cp -r {} $(TARGET_DIR)/ \;
 	@echo "Готово."
 
 # Удаление шаблона из системы

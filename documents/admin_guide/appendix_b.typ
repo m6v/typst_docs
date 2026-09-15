@@ -1,4 +1,4 @@
-#import "@local/vector:0.1.0": reset-enum, formatted-table, note
+#import "@local/gost-2-105:0.1.0": *
 
 = Матрица доступа <access_matrix>
 

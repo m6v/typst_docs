@@ -1,4 +1,4 @@
-#import "../utils.typ": reset-enum
+#import "@local/gost-2-105:0.1.0": *
 
 = Экстренное уничтожение носителей информации
 

@@ -1,4 +1,4 @@
-#import "../utils.typ": note
+#import "@local/gost-2-105:0.1.0": *
 
 == Применение КП СГП
 

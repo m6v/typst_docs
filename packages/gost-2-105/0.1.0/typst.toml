@@ -1,0 +1,6 @@
+[package]
+name = "gost-2-105"
+version = "0.1.0"
+entrypoint = "main.typ"
+authors = ["Sergey Maksimov"]
+description = "Шаблон документов по ГОСТ Р 2.105-2019"

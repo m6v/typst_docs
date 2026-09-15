@@ -1,4 +1,4 @@
-#import "../utils.typ": note, reset-enum, no-indent
+#import "@local/gost-2-105:0.1.0": *
 
 = Обеспечение целостности среды функционирования <integrity_maintenance>
 
