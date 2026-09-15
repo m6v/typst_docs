@@ -225,13 +225,6 @@
 #kpsgp_description
 #drweb_description
 #jacarta_description
-#dionis-nx_description
-#rebus-sov_description
-#strom-1000_description
-#scaner-vs_description
-#m-479rk_description
-#kontinent_description
-#cryptopro_description
 
 = Описание установки и настройки средств защиты информации
 Установку и настройку средств защиты информации (генерацию комплекса средств защиты информации), проверку бесконфликтности их функционирования со средствами антивирусной защиты и специальным программным обеспечением выполняет предприятие-изготовитель. Контрольный пример настройки средств защиты информации приведен в Приложении @baseline_configuration.
@@ -253,11 +246,7 @@
 #astra_applying
 #kpsgp_applying
 #jacarta_applying
-#dionis-nx_applying
-#rebus-sov_applying
-#strom-1000_applying
-#scaner-vs_applying
-#cryptopro_applying
+
 
 // Поддержание целостности среды функционирования
 #integrity_maintenance
