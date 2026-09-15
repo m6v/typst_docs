@@ -13,7 +13,7 @@
 Интерфейс приложения показан на рисунке @fig:cryptopro_common_tab.
 
 #figure(
-  image("assets/images/cryptopro_common_tab.png"),
+  image("images/cryptopro_common_tab.png"),
   caption: [Интерфейс приложения «Инструменты КриптоПро»]
 ) <fig:cryptopro_common_tab>
 
@@ -26,7 +26,7 @@
 + в интерфейсе утилиты «КриптоПро CSP» переходят на вкладку «Создание подписи» (см. рисунок @fig:cryptopro_sign_create_tab);
 
 #figure(
-  image("assets/images/cryptopro_sign_create_tab.png"),
+  image("images/cryptopro_sign_create_tab.png"),
   caption: [Вкладка «Создание подписи»]
 ) <fig:cryptopro_sign_create_tab>
 
@@ -37,7 +37,7 @@
 + в окне запроса пароля (см. рисунок @fig:cryptopro_passwd_enter_dialog) в поле «Введите пароль» вводят пароль к контейнеру с закрытым ключем пользователя и нажимают кнопку [ОК].
 
 #figure(
-  image("assets/images/cryptopro_passwd_enter_dialog.png"),
+  image("images/cryptopro_passwd_enter_dialog.png"),
   caption: [Окно запроса пароля к контейнеру с закрытым ключем пользователя]
 ) <fig:cryptopro_passwd_enter_dialog>
 
@@ -49,7 +49,7 @@
 + в интерфейсе утилиты «КриптоПро CSP» переходят на вкладку «Проверка подписи» (см. рисунок @fig:cryptopro_sign_check_tab);
 
 #figure(
-  image("assets/images/cryptopro_sign_check_tab.png"),
+  image("images/cryptopro_sign_check_tab.png"),
   caption: [Вкладка «Проверка подписи»]
 ) <fig:cryptopro_sign_check_tab>
 
@@ -59,7 +59,7 @@
 Результат проверки ЭЦП файла выводится в интерфейсе утилиты «КриптоПро CSP» (см. рисунок @fig:cryptopro_sign_checked).
 
 #figure(
-  image("assets/images/cryptopro_sign_checked.png"),
+  image("images/cryptopro_sign_checked.png"),
   caption: [Вкладка «Проверка подписи»]
 ) <fig:cryptopro_sign_checked>
 
@@ -69,7 +69,7 @@
 + в интерфейсе утилиты «КриптоПро CSP» переходят на вкладку «Зашифровать файл»;
 
 #figure(
-  image("assets/images/cryptopro_file_encrypt_tab.png"),
+  image("images/cryptopro_file_encrypt_tab.png"),
   caption: [Вкладка «Зашифровать файл»]
 ) <fig:cryptopro_file_encrypt_tab>
 
@@ -85,7 +85,7 @@
 + в интерфейсе утилиты «КриптоПро CSP» переходят на вкладку «Расшифровать файл»;
 
 #figure(
-  image("assets/images/cryptopro_file_decrypt_tab.png"),
+  image("images/cryptopro_file_decrypt_tab.png"),
   caption: [Вкладка «Зашифровать файл»]
 ) <fig:cryptopro_file_decrypt_tab>
 

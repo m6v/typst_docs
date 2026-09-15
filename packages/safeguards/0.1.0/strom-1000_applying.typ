@@ -12,21 +12,21 @@
 Далее на LCD-индикатор выводится номер версии СПО микроконтроллера (mcu) и программируемых схем (fpga) (см. рисунок @fig:strom-1000_software_version).
 
 #figure(
-  image("assets/images/strom-1000_software_version.png"),
+  image("images/strom-1000_software_version.png"),
   caption: [Индикация информации о версии СПО]
 ) <fig:strom-1000_software_version>
 
 Через три секунды после этого на экран выводится результат стартовой проверки аппаратуры. Если тест выполнен успешно, то выводится сообщение, показанное на рисунке @fig:strom-1000_successed_tests.
 
 #figure(
-  image("assets/images/strom-1000_successed_tests.png"),
+  image("images/strom-1000_successed_tests.png"),
   caption: [Индикация успешного прохождения аппаратных тестов]
 ) <fig:strom-1000_successed_tests>
 
 Если выявлены ошибки при прохождении теста, выводится сообщение об ошибке, статусное слово устройства (см. рисунок @fig:strom-1000_faulted_status>). Дальнейшая работа устройства при этом блокируется. Индикатор работа при этом горит красным цветом, указывая на блокировку передачи.
 
 #figure(
-  image("assets/images/strom-1000_faulted_status.png"),
+  image("images/strom-1000_faulted_status.png"),
   caption: [Индикация аппаратной ошибки]
 ) <fig:strom-1000_faulted_status>
 
@@ -40,14 +40,14 @@
 В режиме работа устройство передает сетевые пакеты в одном направлении от внешней сети во внутреннюю. На LCD-индикаторе при этом отображается режим и количество успешно переданных пакетов (см. рисунок @fig:strom-1000_worked_status).
 
 #figure(
-  image("assets/images/strom-1000_worked_status.png"),
+  image("images/strom-1000_worked_status.png"),
   caption: [Индикация рабочего режима устройства]
 ) <fig:strom-1000_worked_status>
 
 Если конфигурации отсутствуют или их контрольная сумма повреждена, то индикатор конфигурации и стартовых проверок мигает ежесекундно, а индикатор «Работа» продолжает гореть красным цветом – передача запрещена. На LCD-индикаторе при этом будет отображаться информация, показанная на рисунке @fig:strom-1000_blocked_status.
 
 #figure(
-  image("assets/images/strom-1000_blocked_status.png"),
+  image("images/strom-1000_blocked_status.png"),
   caption: [Индикация отсутствия конфигураций]
 ) <fig:strom-1000_blocked_status>
 

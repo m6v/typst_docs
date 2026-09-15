@@ -53,13 +53,13 @@
 Вкладка «Текущее состояние» предназначена для просмотра текущего состояния СОВ: накопленной статистики по состоянию агентов, источникам вторжений и типам вторжений, также можно просмотреть несколько событий, зарегистрированных за последнее время. Окрашивание индикатора текущего состояния красным цветом (см. рисунок @fig:rebus-sov_intrusion_detected) сигнализирует об обнаружении новых вторжений. При переходе на вкладку «Аудит» индикатор вторжений окрашивается зеленым цветом (см. рисунок @fig:rebus-sov_intrusion_ansence). В этом случае считается, что оператор СОВ успешно ознакомился с информацией по поступившим вторжениям и при необходимости предпринял защитные меры.
 
 #figure(
-  image("assets/images/rebus-sov_intrusion_detected.png"),
+  image("images/rebus-sov_intrusion_detected.png"),
   caption: [Вкладка «Текущее состояние» при наличии новых вторжений]
 ) <fig:rebus-sov_intrusion_detected>
 
 
 #figure(
-  image("assets/images/rebus-sov_intrusion_ansence.png"),
+  image("images/rebus-sov_intrusion_ansence.png"),
   caption: [Вкладка «Текущее состояние» при отсутствии новых вторжений]
 ) <fig:rebus-sov_intrusion_ansence>
 
@@ -74,7 +74,7 @@
 Минимально возможное количество отображаемых событий равно 10, максимально – 10000.
 
 #figure(
-  image("assets/images/rebus-sov_statistic_settings.png"),
+  image("images/rebus-sov_statistic_settings.png"),
   caption: [Окно настроек с выбором вида представления статистических данных]
 ) <fig:rebus-sov_statistic_settings>
 
@@ -82,7 +82,7 @@
 Вкладка «Аудит» (см. рисунок @fig:rebus-sov_audit_tab) предназначена для просмотра информации по событиям аудита. Служебная информация и информация о всех обнаруженных на станциях вторжениях отображается в табличном виде.
 
 #figure(
-  image("assets/images/rebus-sov_audit_tab.png"),
+  image("images/rebus-sov_audit_tab.png"),
   caption: [Окно настроек с выбором вида представления статистических данных]
 ) <fig:rebus-sov_audit_tab>
 
@@ -99,7 +99,7 @@
 - возможность блокировки станции или сетевого трафика.
 
 #figure(
-  image("assets/images/rebus-sov_stations_tab.png"),
+  image("images/rebus-sov_stations_tab.png"),
   caption: [Окно настроек с выбором вида представления статистических данных]
 ) <fig:rebus-sov_stations_tab>
 
@@ -117,17 +117,17 @@
       table.cell(align: center + horizon)[Значение],
     ),
  
-    [#icon(image("assets/icons/rebus-sov_online_station.png"))], [Контролируемая рабочая станция, доступная по сети в настоящий момент],
+    [#icon(image("icons/rebus-sov_online_station.png"))], [Контролируемая рабочая станция, доступная по сети в настоящий момент],
     
-    [#icon(image("assets/icons/rebus-sov_unauthenticated_station.png"))], [Контролируемая рабочая станция, которая при подключении к серверу СОВ не прошла аутентификацию],
+    [#icon(image("icons/rebus-sov_unauthenticated_station.png"))], [Контролируемая рабочая станция, которая при подключении к серверу СОВ не прошла аутентификацию],
     
-    [#icon(image("assets/icons/rebus-sov_info_station.png"))], [Контролируемая рабочая станция, на которой установки, заданные по умолчанию, изменены (отключены агентские плагины)],
+    [#icon(image("icons/rebus-sov_info_station.png"))], [Контролируемая рабочая станция, на которой установки, заданные по умолчанию, изменены (отключены агентские плагины)],
 
-    [#icon(image("assets/icons/rebus-sov_agentless_station.png"))], [Контролируемая рабочая станция, на которой не запущена агентская часть программы],
+    [#icon(image("icons/rebus-sov_agentless_station.png"))], [Контролируемая рабочая станция, на которой не запущена агентская часть программы],
     
-    [#icon(image("assets/icons/rebus-sov_offline_station.png"))], [Контролируемая рабочая станция, недоступная по сети в настоящий момент],
+    [#icon(image("icons/rebus-sov_offline_station.png"))], [Контролируемая рабочая станция, недоступная по сети в настоящий момент],
     
-    [#icon(image("assets/icons/rebus-sov_disabled_station.png"))], [Контролируемая рабочая станция, которая завершила свою работу, не пройдя аутентификацию],
+    [#icon(image("icons/rebus-sov_disabled_station.png"))], [Контролируемая рабочая станция, которая завершила свою работу, не пройдя аутентификацию],
   )
 ) <fig:rebus-sov_stations_status>
 
@@ -138,7 +138,7 @@
 Из консоли управления можно удаленно запускать и останавливать плагины, установленные на станции. Для запуска или остановки плагина на выбранной станции нужно в форме «Управление плагинами» (см. рисунок @fig:rebus-sov_plugins_control) выбрать требуемый плагин и в активизированных справа от таблицы элементах управления выбрать в зависимости от задачи ссылку «Запустить» или «Остановить». Состояние плагина на текущий момент отображается в той же таблице, где происходит выбор плагина в колонке «Состояние».
 
 #figure(
-  image("assets/images/rebus-sov_plugins_control.png"),
+  image("images/rebus-sov_plugins_control.png"),
   caption: [Окно настроек с выбором вида представления статистических данных]
 ) <fig:rebus-sov_plugins_control>
 
