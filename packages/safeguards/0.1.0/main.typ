@@ -46,7 +46,6 @@
 //#let cryptopro_install = include "cryptopro_install.typ"
 #let cryptopro_applying = include "cryptopro_applying.typ"
 
-
 // Разделы Руководства по комплексу средств защиты информации
 #let startup_description = include "startup_description.typ"
 #let security_testing = include "security_testing.typ"
