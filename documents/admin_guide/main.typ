@@ -275,7 +275,6 @@
 #show: appendixes
 #include "appendix_a.typ"
 #include "appendix_b.typ"
-#include "appendix_c.typ"
 // Пример вставки приложения с недефолтным статусом
 //#appendix(include "appendix_c.typ", status: "рекомендуемое")
 
