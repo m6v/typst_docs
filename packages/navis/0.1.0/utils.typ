@@ -16,7 +16,7 @@
 
   let note-indent = 1.25cm
 
-  block(width: 100%, inset: (y: 0.2em))[
+  block(width: 100%, inset: (y: 0.2em), breakable: false)[
     // Отключение абзацного отступа, чтобы не суммировался с #h(1.25cm)
     #set par(first-line-indent: (amount: 0cm, all: false))
     #set text(size: 12pt)
