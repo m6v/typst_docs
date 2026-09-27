@@ -17,7 +17,6 @@
     table.header(repeat: true,
       table.cell(align: center + horizon)[Действия],
       table.cell(align: center + horizon)[Ожидаемые результаты],
-      table.hline(stroke: 1.5pt + black),
     ),
     align: (left + top, left + top),
     [Включают СВТ и немедленно нажимают клавишу «Delete»],
@@ -49,7 +48,6 @@
     table.header(repeat: true,
       table.cell(align: center + horizon)[Действия],
       table.cell(align: center + horizon)[Ожидаемые результаты],
-      table.hline(stroke: 1.5pt + black),
     ),
     align: (left + top, left + top),
     
@@ -172,7 +170,6 @@
     table.header(repeat: true,
       table.cell(align: center + horizon)[Действия],
       table.cell(align: center + horizon)[Ожидаемые результаты],
-      table.hline(stroke: 1.5pt + black),
     ),
     align: (left + top, left + top),
     
@@ -241,7 +238,6 @@
     table.header(repeat: true,
       table.cell(align: center + horizon)[Действия],
       table.cell(align: center + horizon)[Ожидаемые результаты],
-      table.hline(stroke: 1.5pt + black),
     ),
     align: (left + top, left + top),
     [Проверяют и при необходимости редактируют секцию «file section» конфигурационного файла `/etc/afick.conf` так, чтобы в ней были указаны контролируемые объекты ФС, перечисленные подразделе 9.4 документа РУСБ.10015-01 97 01 «Операционная система специального назначения «Astra Linux Special Edition» Руководство по КСЗ. Часть 1»],

@@ -114,34 +114,151 @@
     }
   }
 
-  // Общие настройки для подписей таблиц и рисунков
+
+  /////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  // 1. Вспомогательная функция-предикат для определения ГОСТ-таблицы
+  let is-gost-table(fig) = {
+    fig.has("body") and fig.body.func() == grid and fig.body.fields().at("stroke", default: none) == 0.5pt
+  }
+
+  // 2. ВАШИ СУЩЕСТВУЮЩИЕ НАСТРОЙКИ ФИГУР
   set figure.caption(separator: [ — ])
 
-  // Динамическая нумерация рисунков и таблиц по ГОСТ (учитывает обычные главы и приложения)
   set figure(numbering: (..args) => context {
     let heading-nums = counter(heading).get()
     let fig-num = args.pos().first()
     
-    // Проверяем, включен ли сейчас режим нумерации приложений
     if heading-nums.len() > 0 and heading.numbering == appendix-numbering {
       let letter = appendix-letters.at(heading-nums.first() - 1)
       [#letter.#fig-num]
     } else {
-      // Стандартная нумерация для основного текста
       str(fig-num) 
     }
   })
 
-  // Настройка подписей рисунков
   show figure.where(kind: image): set figure(supplement: [Рисунок])
   show figure.caption.where(kind: image): set align(center)
 
-  // Настройка подписей таблиц
-  show figure.where(kind: table): set figure(supplement: [Таблица])
-  show figure.where(kind: table): set figure.caption(position: top)
-  show figure.caption.where(kind: table): set align(left)
-  show figure.caption.where(kind: table): set par(first-line-indent: (amount: 0cm, all: false))
-  show figure.where(kind: table): set block(breakable: true, sticky: true)
+  // 3. АДАПТИРОВАННАЯ НАСТРОЙКА ПОДПИСЕЙ И ПЕРЕНОСОВ ДЛЯ ТАБЛИЦ
+  show figure: it => {
+    if is-gost-table(it) or it.kind == table {
+      set figure(supplement: [Таблица])
+      set figure.caption(position: top)
+      set block(breakable: true, sticky: true)
+      
+      show figure.caption: set align(left)
+      show figure.caption: set par(first-line-indent: (amount: 0cm, all: false))
+      
+      it
+    } else {
+      it
+    }
+  }
+
+  // 4. НАШЕ ОФИЦИАЛЬНОЕ ШОУ-ПРАВИЛО ДЛЯ ТАБЛИЦ-GRID
+  show table: it => {
+    set text(size: 12pt)
+    
+    // ВАШ НАДЕЖНЫЙ И ПРОВЕРЕННЫЙ МЕТОД ПОЛНОГО УНИЧТОЖЕНИЯ ОТСТУПОВ
+    // Мы перехватываем списки прямо перед сборкой сетки
+    show list.item: item-it => block(width: 100%)[
+      #set par(first-line-indent: (amount: 0cm, all: true))
+      -#h(0.5em, weak: true)#item-it.body
+    ]
+
+    // Безопасный перехват нумерованных списков без привязки к внешним переменным counter
+    show enum: enum-it => {
+      enum-it.children.enumerate().map(((index, item)) => {
+        let current-num = index + 1 // Номер всегда начинается с 1 для конкретной ячейки
+        block(width: 100%)[
+          #str(current-num))#h(0.5em, weak: true)#item.body
+        ]
+      }).join()
+    }
+    
+    let pos-args = it.children
+    let named-args = it.fields()
+    let _ = named-args.remove("children") 
+    
+    let columns = named-args.at("columns", default: auto)
+    let header-align = center + horizon
+    
+    let found-header = pos-args.find(item => type(item) == content and item.func() == table.header)
+    
+    let cols-count = if type(columns) == int { 
+      columns 
+    } else if type(columns) == array { 
+      columns.len() 
+    } else if found-header != none {
+      found-header.fields().at("children", default: ()).len()
+    } else { 
+      1 
+    }
+    
+    let new-pos-args = ()
+    
+    for item in pos-args {
+      if type(item) == content and item.func() == table.header {
+        let header-fields = item.fields()
+        let children = header-fields.remove("children", default: ())
+        
+        let new-children = children.map(cell => {
+          if type(cell) == content and cell.func() == table.cell {
+            let fields = cell.fields()
+            let body = fields.remove("body") 
+            if not "align" in fields or fields.align == none { fields.align = header-align }
+            grid.cell(body, ..fields)
+          } else {
+            grid.cell(align: header-align, cell)
+          }
+        })
+        
+        let separator-line = range(cols-count).map(_ => grid.cell(
+          inset: (top: 1.25pt, bottom: 1.25pt),
+          stroke: (top: 0.5pt, bottom: 0.5pt, left: none, right: none),
+          []
+        ))
+        
+        new-pos-args.push(grid.header(..new-children, ..separator-line, ..header-fields))
+      } else {
+        if type(item) == content and item.func() == table.cell {
+          let fields = item.fields()
+          let body = fields.remove("body")
+          new-pos-args.push(grid.cell(body, ..fields))
+        } else {
+          new-pos-args.push(item)
+        }
+      }
+    }
+
+    let final-columns = if columns == auto and cols-count > 1 { 
+      (auto,) * cols-count 
+    } else { 
+      columns 
+    }
+
+    named-args.columns = final-columns
+    if not "stroke" in named-args or named-args.stroke == none {
+      named-args.stroke = 0.5pt
+    }
+
+    grid(
+      ..new-pos-args,
+      ..named-args
+    )
+  }
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+  // Настройка подписей рисунков
+  show figure.where(kind: image): set figure(supplement: [Рисунок])
+  show figure.caption.where(kind: image): set align(center)
 
   // Настройки маркированных и нумерованных списков
   set list(marker: none, indent: 0pt, body-indent: 0pt)
@@ -164,36 +281,6 @@
     }).join()
 
     enum-counter.update(i => i + it.children.len())
-  }
-
-  // Настройки таблиц и ячеек
-  show table: set text(size: 12pt)
-  show table: set par(leading: 0.65em, justify: false, first-line-indent: (amount: 0cm, all: false))
-  show table: set table(
-    align: (col, row) => if row == 0 { center + horizon } else { left + horizon },
-    stroke: 0.5pt + black,
-    inset: (left: 3pt, right: 5pt, y: 5pt)
-  )
-
-  // Удаление внутри таблицы отступов списков
-  show table: it => {
-    show list.item: item-it => block(width: 100%)[
-      #set par(first-line-indent: (amount: 0cm, all: true))
-      -#h(0.5em, weak: true)#item-it.body
-    ]
-
-    show enum: enum-it => {
-      let start-num = enum-counter.get().first() + 1
-      enum-it.children.enumerate().map(((index, item)) => {
-        let current-num = start-num + index
-        block(width: 100%)[
-          #str(current-num)\)#h(0.5em, weak: true)#item.body
-        ]
-      }).join()
-      enum-counter.update(i => i + enum-it.children.len())
-    }
-
-    it
   }
 
   // Настройки страницы и бокового штампа (ЕCПД)

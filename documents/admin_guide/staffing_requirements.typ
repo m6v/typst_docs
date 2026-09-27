@@ -24,7 +24,6 @@
       table.cell(align: center + horizon)[Перечень СВТ, на которых выполняются работы],
       table.cell(align: center + horizon)[Периодичность],
       table.cell(align: center + horizon)[Трудо-затраты, чел.ч],
-      table.hline(stroke: 1.5pt + black),
     ),
     
     align: (left + top, center + top, center + top, center + top),  

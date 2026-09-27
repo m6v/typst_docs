@@ -1,5 +1,5 @@
 #import "styles.typ": text-document
-#import "utils.typ": icon, note, reset-enum, no-indent, formatted-table
+#import "utils.typ": icon, note, reset-enum, no-indent
 
 // Импорт структурных элементов текстового документа по ГОСТ Р 2.105-2019
 #import "components/titlepage.typ": titlepage

@@ -1,4 +1,5 @@
-#import "@local/navis:0.1.0": *
+#import "@local/gost-2-105:0.1.0": *
+//#import "@local/navis:0.1.0": *
 #import "@local/safeguards:0.1.0": *
 
 #let doc-id = "AAAA.123456.789"
@@ -100,7 +101,6 @@
       table.cell(align: center + horizon)[Наименование средства защиты],
       table.cell(align: center + horizon)[Сведения о сертификате],
       table.cell(align: center + horizon)[Место установки],
-      table.hline(stroke: 1.5pt + black),
     ),
     
     align: (left + top, center + top, center + top),  
@@ -152,7 +152,6 @@
     table.header(repeat: true,
       table.cell(align: center + horizon)[Группа пользователей (имя группы)],
       table.cell(align: center + horizon)[Функциональные задачи и возможности пользователей, \ входящих в группу],
-      table.hline(stroke: 1.5pt + black),
     ),
     align: (center + top, left + top),  
 
@@ -209,7 +208,6 @@
       table.cell( align: center + horizon)[Уровень конфиден-циаль-ности (мин.:макс.)],
       table.cell( align: center + horizon)[Уровень целост-ности (мин.: макс.)],
       table.cell(align: center + horizon)[Категория],
-      table.hline(stroke: 1.5pt + black),
     ),
     align: (center + top, center + top, center + top, center + top, center + top, center + top, center + top),  
     

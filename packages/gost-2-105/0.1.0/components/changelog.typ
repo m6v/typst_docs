@@ -25,7 +25,6 @@
             table.cell(colspan: 10)[Лист регистрации изменений],
             table.cell(rowspan: 2)[Изм.], table.cell(colspan: 4)[Номера листов (страниц)], table.cell(rowspan: 2)[Всего листов\ (страниц)\ в документе], table.cell(rowspan: 2)[Номер\ доку-\ мента], table.cell(rowspan: 2)[Входящий номер\ сопроводительного\ документа и дата], table.cell(rowspan: 2)[Под-\ пись], table.cell(rowspan: 2)[Дата],
             [изменен-\ ных], [заменен-\ ных], [новых], [аннулиро-\ ванных],
-            table.hline(y: 3, stroke: 1.2pt + black)
           ),
         )
       )
