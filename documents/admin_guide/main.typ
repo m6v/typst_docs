@@ -157,8 +157,8 @@
 
     [Администраторы безопасности информации \ (astra-admin)],
     [
-      - включение, перезагрузка и выключение оборудования АРМ АБИ, сервера изделия;
-      - идентификация и аутентификация перед загрузкой ОС;
+      + включение, перезагрузка и выключение оборудования АРМ АБИ, сервера изделия;
+      + идентификация и аутентификация перед загрузкой ОС;
       - идентификация и аутентификация перед запуском пользовательского сеанса;
       - управление средствами ЗИ (управление учетными записями пользователей, генерация и смена паролей, управление САВЗ);
       - контроль целостности (КЦ) неизменяемых компонентов ПО;
@@ -203,25 +203,25 @@
       table.cell(rowspan: 2, align: center + horizon)[Первичная группа],
       table.cell(rowspan: 2, align: center + horizon)[Доп. группы],
       table.cell(colspan: 3, align: center + horizon)[Возможные значения мандатного контекста безопасности],
-      table.cell(rowspan: 2, align: center + horizon)[Linux- и PARSEC-привилегии (usercaps)],
+      table.cell(rowspan: 2, align: center + horizon)[Linux-\ и PARSEC-\ привилегии (usercaps)],
       
-      table.cell( align: center + horizon)[Уровень конфиден-циаль-ности (мин.:макс.)],
-      table.cell( align: center + horizon)[Уровень целост-ности (мин.: макс.)],
+      table.cell( align: center + horizon)[Уровень конф-\ти\ (мин.:макс.)],
+      table.cell( align: center + horizon)[Уровень цел-\ти\ (мин.:макс.)],
       table.cell(align: center + horizon)[Категория],
     ),
     align: (center + top, center + top, center + top, center + top, center + top, center + top, center + top),  
     
     [Администратор безопасности информации], [astra-admin],
     [adm, astra-console, audio, cdrom, dip, floppy, lpadmin, netdev, plugdev, scanner, video],
-    [0:1], [Низкий:\ Высокий], [ - ], [0x0:0x0],
+    [0:1], [Низкий:\ Высокий], [ \- ], [0x0:0x0],
 
     [Инструктор], [instructors],
     [audio, cdrom, dialout, floppy, plugdev, users, video],
-    [0:1], [Низкий:\ Низкий], [ - ], [0x0:0x0],
+    [0:1], [Низкий:\ Низкий], [ \- ], [0x0:0x0],
 
     [Обучаемый], [learners],
     [audio, cdrom, dialout, floppy, plugdev, users, video],
-    [0:1], [Низкий:\ Низкий], [ - ], [0x0:0x0],
+    [0:1], [Низкий:\ Низкий], [ \- ], [0x0:0x0],
   )
 ) <fig:user_accounts>
 

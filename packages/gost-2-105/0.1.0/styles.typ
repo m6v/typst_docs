@@ -19,6 +19,9 @@
     first-line-indent: (amount: 1.25cm, all: true)
   )
 
+  show table: set par(first-line-indent: 0cm)
+  show grid: set par(first-line-indent: 0cm)
+
   // Настройка нумерации заголовков
   set heading(numbering: "1.1")
 
@@ -119,12 +122,12 @@
 
 
 
-  // 1. Вспомогательная функция-предикат для определения ГОСТ-таблицы
+  // 2. Вспомогательная функция-предикат для определения ГОСТ-таблицы
   let is-gost-table(fig) = {
     fig.has("body") and fig.body.func() == grid and fig.body.fields().at("stroke", default: none) == 0.5pt
   }
 
-  // 2. ВАШИ СУЩЕСТВУЮЩИЕ НАСТРОЙКИ ФИГУР
+  // 3. НАСТРОЙКИ ФИГУР (Ваш рабочий оригинальный каркас)
   set figure.caption(separator: [ — ])
 
   set figure(numbering: (..args) => context {
@@ -142,7 +145,7 @@
   show figure.where(kind: image): set figure(supplement: [Рисунок])
   show figure.caption.where(kind: image): set align(center)
 
-  // 3. АДАПТИРОВАННАЯ НАСТРОЙКА ПОДПИСЕЙ И ПЕРЕНОСОВ ДЛЯ ТАБЛИЦ
+  // АДАПТИРОВАННАЯ НАСТРОЙКА ПОДПИСЕЙ И ПЕРЕНОСОВ ДЛЯ ТАБЛИЦ
   show figure: it => {
     if is-gost-table(it) or it.kind == table {
       set figure(supplement: [Таблица])
@@ -158,26 +161,9 @@
     }
   }
 
-  // 4. НАШЕ ОФИЦИАЛЬНОЕ ШОУ-ПРАВИЛО ДЛЯ ТАБЛИЦ-GRID
+  // 4. НАШЕ ОФИЦИАЛЬНОЕ ШОУ-ПРАВИЛО ДЛЯ ТАБЛИЦ-GRID (Полностью очищенное)
   show table: it => {
     set text(size: 12pt)
-    
-    // ВАШ НАДЕЖНЫЙ И ПРОВЕРЕННЫЙ МЕТОД ПОЛНОГО УНИЧТОЖЕНИЯ ОТСТУПОВ
-    // Мы перехватываем списки прямо перед сборкой сетки
-    show list.item: item-it => block(width: 100%)[
-      #set par(first-line-indent: (amount: 0cm, all: true))
-      -#h(0.5em, weak: true)#item-it.body
-    ]
-
-    // Безопасный перехват нумерованных списков без привязки к внешним переменным counter
-    show enum: enum-it => {
-      enum-it.children.enumerate().map(((index, item)) => {
-        let current-num = index + 1 // Номер всегда начинается с 1 для конкретной ячейки
-        block(width: 100%)[
-          #str(current-num))#h(0.5em, weak: true)#item.body
-        ]
-      }).join()
-    }
     
     let pos-args = it.children
     let named-args = it.fields()
@@ -244,6 +230,9 @@
     if not "stroke" in named-args or named-args.stroke == none {
       named-args.stroke = 0.5pt
     }
+
+    // Отключаем автоматический машинный автоперенос, полностью доверяя вашему ручному синтаксису "\-"
+    set text(hyphenate: false)
 
     grid(
       ..new-pos-args,
