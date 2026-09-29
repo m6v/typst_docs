@@ -39,7 +39,7 @@
 #include "abbreviations.typ"
 
 #pagebreak(weak: true)
-Настоящее руководство по эксплуатации распространяется на систему защиты информации УТЦ ТДЦК.161454.020 (далее - СЗИ УТЦ) и предназначено...
+Настоящее руководство по эксплуатации распространяется на систему защиты информации УТЦ #doc-id (далее - СЗИ УТЦ) и предназначено...
 
 = Общие сведения <security_overview>
 
@@ -242,7 +242,6 @@
 = Описание средств защиты информации и реализуемых (контролируемых) ими функций <safeguards_features> 
 #sobol_description
 #astra_description
-#kpsgp_description
 #drweb_description
 #jacarta_description
 
@@ -251,7 +250,6 @@
 
 #sobol_install
 #astra_install
-#kpsgp_install
 #drweb_install
 #jacarta_install
 
@@ -261,7 +259,6 @@
 Способ управления (применения) зависит от конкретного средства защиты информации и описывается в настоящем разделе.
 #sobol_applying
 #astra_applying
-#kpsgp_applying
 #jacarta_applying
 
 // Описание старта средств вычислительной техники и процедур проверки правильности старта
@@ -271,7 +268,9 @@
 #integrity_maintenance
 
 // Тестирование средств защиты информации
-#security_testing
+= Тестирование средств защиты информации <security_testing>
+#sobol_testing
+#astra_testing
 
 #emergency_destruction
 

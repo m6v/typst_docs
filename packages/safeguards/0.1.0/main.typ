@@ -2,10 +2,12 @@
 #let sobol_description = include "sobol_description.typ"
 #let sobol_install = include "sobol_install.typ"
 #let sobol_applying = include "sobol_applying.typ"
+#let sobol_testing = include "sobol_testing.typ"
 
 #let astra_description = include "astra_description.typ"
 #let astra_install = include "astra_install.typ"
 #let astra_applying = include "astra_applying.typ"
+#let astra_testing = include "astra_testing.typ"
 
 #let kpsgp_description = include "kpsgp_description.typ"
 #let kpsgp_install = include "kpsgp_install.typ"
