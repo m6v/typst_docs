@@ -1,2 +1,2 @@
-#import "vector-document.typ": vector-document
+#import "text-document.typ": text-document
 #import "titlepage.typ": titlepage

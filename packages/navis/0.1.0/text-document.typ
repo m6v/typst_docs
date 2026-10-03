@@ -1,6 +1,6 @@
 #import "@local/gost-2-105:0.1.0": *
 
-#let navis-document(doc-id: "", body) = {
+#let text-document(doc-id: "", body) = {
 
   set page(
     paper: "a4",

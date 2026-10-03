@@ -3,4 +3,4 @@ name = "navis"
 version = "0.1.0"
 entrypoint = "main.typ"
 authors = ["Sergey Maksimov"]
-description = "Шаблон документов по образцу АО НАВИС"
+description = "Шаблон документов по образцу АО КБ НАВИС"

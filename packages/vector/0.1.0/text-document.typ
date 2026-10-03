@@ -1,6 +1,6 @@
 #import "@local/gost-2-105:0.1.0": *
 
-#let vector-document(doc-id: "", body) = {
+#let text-document(doc-id: "", body) = {
   // Настройки страницы и бокового штампа (ЕCПД)
   set page(
     paper: "a4",

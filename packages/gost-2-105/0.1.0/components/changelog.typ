@@ -4,9 +4,9 @@
     margin: (top: 15mm, left: 15mm, right: 15mm, bottom: 5mm),
     [
       #set text(
-        font: "Liberation Serif", 
-        size: 7.5pt,              
-        tracking: -0.03em         
+        font: "Liberation Serif",
+        size: 7.5pt,
+        tracking: -0.03em
       )
       #set par(leading: 0.35em, first-line-indent: (amount: 0cm, all: false))
       #show table.cell: set par(first-line-indent: (amount: 0cm, all: false))

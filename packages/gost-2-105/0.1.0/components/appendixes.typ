@@ -29,11 +29,11 @@
     // Установка дефолтного статуса
     supplement: "обязательное",
   )
-  
+
   // Сброс системных счетчиков
   counter(heading).update(0)
   counter(figure.where(kind: image)).update(0)
   counter(figure.where(kind: table)).update(0)
-  
+
   body
 }

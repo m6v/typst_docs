@@ -6,7 +6,7 @@
   // Настройки текста и параграфов
   set text(
     font: "Liberation Serif",
-    size: 14pt, 
+    size: 14pt,
     lang: "ru",
     hyphenate: false
   )
@@ -15,7 +15,7 @@
 
   set par(
     leading: 1em,
-    justify: true, 
+    justify: true,
     first-line-indent: (amount: 1.25cm, all: true)
   )
 
@@ -31,7 +31,7 @@
     let h2-above     = 20pt
     let h2-below     = 12pt
     // Отступ между заголовком и наименованием приложения
-    let appendix-gap = 12pt 
+    let appendix-gap = 12pt
     // Межстрочный интервал в многострочном заголовке
     set par(leading: 0.65em)
 
@@ -78,7 +78,7 @@
         #h(1.25cm)
         #if it.numbering != none {
           context counter(heading).display(it.numbering)
-          h(0.5em) 
+          h(0.5em)
         }
         #it.body
       ]
@@ -121,14 +121,14 @@
   set figure(numbering: (..args) => context {
     let heading-nums = counter(heading).get()
     let fig-num = args.pos().first()
-    
+
     // Проверяем, включен ли сейчас режим нумерации приложений
     if heading-nums.len() > 0 and heading.numbering == appendix-numbering {
       let letter = appendix-letters.at(heading-nums.first() - 1)
       [#letter.#fig-num]
     } else {
       // Стандартная нумерация для основного текста
-      str(fig-num) 
+      str(fig-num)
     }
   })
 

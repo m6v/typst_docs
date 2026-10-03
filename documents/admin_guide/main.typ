@@ -1,5 +1,5 @@
 #import "@local/gost-2-105:0.1.0": *
-#import "@local/navis:0.1.0": navis-document
+#import "@local/navis:0.1.0": text-document, titlepage
 #import "@local/safeguards:0.1.0": *
 
 #let doc-id = "AAAA.123456.789"
@@ -7,7 +7,7 @@
 #let security-class="1Г"
 
 //Применение стилей оформления
-#show: navis-document.with(doc-id: doc-id)
+#show: text-document.with(doc-id: doc-id)
 
 //Титульный лист
 #titlepage(

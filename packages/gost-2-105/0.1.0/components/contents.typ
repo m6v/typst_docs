@@ -16,6 +16,6 @@
   outline(
     title: none,
     indent: 1.25cm,
-    depth: 2 
+    depth: 2
   )
 }
