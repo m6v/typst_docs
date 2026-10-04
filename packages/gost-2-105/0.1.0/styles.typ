@@ -15,8 +15,9 @@
 
   set par(
     leading: 1em,
+    spacing: 1em,
     justify: true,
-    first-line-indent: (amount: 1.25cm, all: true)
+    first-line-indent: (amount: 1.25cm, all: true),
   )
 
   // Настройка нумерации заголовков
@@ -40,6 +41,8 @@
 
       if it.numbering == appendix-numbering {
         // Оформление приложений к основной части
+        counter(figure.where(kind: image)).update(0)
+        counter(figure.where(kind: table)).update(0)
         block(width: 100%, below: h1-below)[
           #align(center)[
             #set par(first-line-indent: 0cm)
@@ -57,7 +60,7 @@
           ]
         ]
       } else {
-        // Оформление заголовков разделов (уровень 1) основной части
+        // Оформление заголовков разделов (уровень 1)
         block(width: 100%, below: h1-below)[
           #h(1.25cm)
           #if it.numbering != none {
@@ -68,7 +71,7 @@
         ]
       }
     } else {
-      // Оформление подразделов, пунктов и подпунктов (уровень 2 и ниже)
+      // Оформление заголовков подразделов, пунктов и подпунктов (уровень 2 и ниже)
       block(
         width: 100%,
         above: h2-above,
@@ -117,7 +120,7 @@
   // Общие настройки для подписей таблиц и рисунков
   set figure.caption(separator: [ — ])
 
-  // Динамическая нумерация рисунков и таблиц по ГОСТ (учитывает обычные главы и приложения)
+  // Динамическая нумерация рисунков и таблиц с учетом нахождения их в основной части или в приложениях
   set figure(numbering: (..args) => context {
     let heading-nums = counter(heading).get()
     let fig-num = args.pos().first()
@@ -175,7 +178,7 @@
     inset: (left: 3pt, right: 5pt, y: 5pt)
   )
 
-  // Удаление внутри таблицы отступов списков
+  // Удаление внутри таблицы отступов у маркированных и нумерованных списков
   show table: it => {
     show list.item: item-it => block(width: 100%)[
       #set par(first-line-indent: (amount: 0cm, all: true))

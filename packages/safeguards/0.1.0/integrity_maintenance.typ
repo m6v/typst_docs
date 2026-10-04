@@ -61,7 +61,7 @@ eject
 ```
 + монтируют в каталоге `/root` виртуальные файловые системы, выполнив в терминале Fly команду
 ```bash
-for dir in proc sys dev dev/pts; do mount --bind $dir /root/$i; done
+for i in proc sys dev dev/pts; do mount --bind $i /root/$i; done
 ```
 + меняют корень файловой системы с запуском в новом корне оболочки `bash`, выполнив в терминале Fly команду
 ```bash
