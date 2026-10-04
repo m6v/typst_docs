@@ -17,20 +17,21 @@
 #figure(
   caption: [Матрица доступа],
 
-  formatted-table(
-    // Настройка колонок: автоматическая ширина по контенту
-    columns: (2fr, 1fr, 1fr, 1fr),
-    // Выравнивание: шапка по центру, данные по левому краю
-    //align: (col, row) => if row == 0 { center + horizon } else { left + horizon },
+  table(
+    columns: (2fr, 1fr, 0.8fr, 0.8fr),
     align: (col, row) => {
-      if row == 0 { center + horizon }       // Шапка (первая строка): строго по центру
-      else if col == 0 { left + horizon }    // Первый столбец остальных строк: по левому краю
-      else { center + horizon }            // Все остальные ячейки: по центру
+      if row == 0 { center + horizon }     // Выравнивание в заголовке таблицы по центру,
+      else if col == 0 { left + horizon }  // первый столбец таблицы по левому краю,
+      else { center + horizon }            // остальные столбцы таблицы  по центру
     },
-    // Фиксируем шапку при переносе таблицы на новую страницу
-    header: ("Объект доступа", "Судъект доступа (владелец:группа)", "Дискреционные права", "Мандатная категория"),
-
-    // Вставляем строки из CSV-файла
+    table.header(repeat: true,
+      table.cell(align: center + horizon)[Объект доступа],
+      table.cell(align: center + horizon)[Субъект доступа (владелец:группа)],
+      table.cell(align: center + horizon)[Дискреционные права],
+      table.cell(align: center + horizon)[Мандатная категория],
+      table.hline(stroke: 1.5pt + black),
+    ),
+    // Вставка строк из CSV-файла
     ..rows.flatten()
   )
 
