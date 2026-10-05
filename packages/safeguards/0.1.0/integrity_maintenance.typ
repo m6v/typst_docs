@@ -46,14 +46,14 @@
 + загружают СВТ в режиме восстановления в соответствии с @rescue_boot;
 + извлекают из репозитория установочного диска утилиту установки базовой системы, выполнив в терминале Fly команды
 ```bash
-tar -x /cdrom/pool/main/d/debootstrap/debootstrap*.deb
+ar -x /cdrom/pool/main/d/debootstrap/debootstrap*.deb
 xzcat data.tar.gz | tar -C /root -xf -
 ```
 + развертывают базовую систему в каталоге `/root`, выполнив в терминале Fly команду
 ```bash
-/root/usr/sbin/debootstrap --no-check-gpg \
---components=main,contrib,non-free \
---include=ncurses-term,qemu-utils 1.7_x86-64 /root file:/cdrom
+/root/usr/sbin/debootstrap --no-check-gpg --components=main,contrib,non-free \
+--include=ncurses-term,mc,e2fsprogs 1.7_x86-64 /root file:/cdrom
+
 ```
 + извлекают установочный DVD-диск из комплекта поставки ОС «Astra Linux SE», выполнив команду
 ```bash
@@ -61,11 +61,11 @@ eject
 ```
 + монтируют в каталоге `/root` виртуальные файловые системы, выполнив в терминале Fly команду
 ```bash
-for i in proc sys dev dev/pts; do mount --bind $i /root/$i; done
+for i in dev dev/pts proc sys; do mount --bind $i /root/$i; done
 ```
 + меняют корень файловой системы с запуском в новом корне оболочки `bash`, выполнив в терминале Fly команду
 ```bash
-chroot /root /usr/bin/env -i HOME=/root TERM="$TERM" /bin/bash --login
+chroot /root /usr/bin/env -i HOME=/root TERM=$TERM /bin/bash --login
 ```
 
 == Резервное копирование (архивирование) программных средств защиты информации и защищаемой информации <system_backup>
@@ -84,15 +84,21 @@ chroot /root /usr/bin/env -i HOME=/root TERM="$TERM" /bin/bash --login
 fdisk -l | grep "Disk /dev"
 ```
 + по выведенному списку определяют имя подключенного накопителя, например, `/dev/sdb`, ориентируясь на его емкость;
-+ создают таблицу разделов и один раздел на весь подключенный накопитель с меткой `BACKUPS`, выполнив команды
++ создают таблицу разделов и один на весь подключенный накопитель раздел с меткой `BACKUPS`, выполнив команду
 ```bash
 echo 'label: gpt' | sfdisk --force /dev/sdb
-blockdev --rereadpt /dev/sdb
-mkfs.ext4 -F -L "BACKUPS" /dev/sdb1
 ```
 #par(first-line-indent: 0pt)[
-  где вместо `/dev/sdb` указывают имя подключенного накопителя, определенное на предыдущем шаге.
+  где вместо `/dev/sdb` здесь и далее указывают имя подключенного накопителя, определенное на предыдущем шаге.
 ]
++ создают один раздел на весь диск, выполнив команду
+```
+echo ';' | sfdisk /dev/sdb
+```
++ форматируют созданный раздел с меткой `BACKUPS`, выполнив команду
+```
+mkfs.ext4 -F -L "BACKUPS" /dev/sdb1
+```
 
 === Резервное копирование программных средств защиты информации <safeguards_backup>
 
@@ -106,10 +112,11 @@ mount /dev/disk/by-label/BACKUPS /mnt/backup
 ```
 + создают резервную копию корневого раздела, выполнив в терминале Fly команду
 ```bash
-e2image -arp root_part /mnt/backup/backup.img
+cd /mnt/backup
+LD_LIBRARY_PATH=./ ./e2image -arpf root_part - | ./gzip > backup.img.gz
 ```
 #par(first-line-indent: 0pt)[
-  где вместо `root_part` вводят имя корневого раздела операционной системы на встроенном МНИ, например, `/dev/nvme0n1p2`, а вместо `backup.img` – имя файла для резервной копии корневого раздела операционной системы;
+  где вместо `root_part` вводят имя корневого раздела операционной системы на встроенном МНИ, например, `/dev/nvme0n1p2`, а вместо `backup.img.gz` – имя файла для резервной копии корневого раздела операционной системы;
 ]
 
 #note(
